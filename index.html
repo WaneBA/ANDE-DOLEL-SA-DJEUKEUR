@@ -1,0 +1,3438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ANDE DOLEL SA DJEUKEUR</title>
+
+<!-- PWA Meta Tags -->
+<meta name="application-name" content="ANDE DOLEL">
+<meta name="description" content="Gestion de tontine - Dakar">
+<meta name="theme-color" content="#0D1B2A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ANDE DOLEL">
+<meta name="msapplication-TileColor" content="#0D1B2A">
+<meta name="msapplication-tap-highlight" content="no">
+
+<!-- PWA Icons (inline SVG as data URI) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%230D1B2A'/%3E%3Crect x='40' y='40' width='432' height='432' rx='80' fill='%231A2E45'/%3E%3Ctext x='256' y='320' text-anchor='middle' font-size='240' font-family='Arial'%3E🤝%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%230D1B2A'/%3E%3Crect x='40' y='40' width='432' height='432' rx='80' fill='%231A2E45'/%3E%3Ctext x='256' y='320' text-anchor='middle' font-size='240' font-family='Arial'%3E🤝%3C/text%3E%3C/svg%3E">
+
+<!-- PWA Manifest (inline) -->
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22ANDE+DOLEL+SA+DJEUKEUR%22%2C%22short_name%22%3A%22ANDE+DOLEL%22%2C%22description%22%3A%22Gestion+de+tontine+-+Dakar%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%230D1B2A%22%2C%22theme_color%22%3A%22%230D1B2A%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%2520viewBox%3D'0%25200%2520512%2520512'%253E%253Crect%2520width%3D'512'%2520height%3D'512'%2520rx%3D'112'%2520fill%3D'%25230D1B2A'%2F%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any+maskable%22%7D%5D%7D">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #9A7A2E;
+    --deep: #0D1B2A;
+    --deep2: #1A2E45;
+    --deep3: #243B55;
+    --surface: #1E2D40;
+    --surface2: #253548;
+    --text: #F0EAD6;
+    --text-muted: #9AA8BA;
+    --danger: #E74C3C;
+    --success: #2ECC71;
+    --warning: #F39C12;
+    --info: #3498DB;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  
+  body {
+    font-family: var(--font-body);
+    background: var(--deep);
+    color: var(--text);
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  /* BACKGROUND TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 90%, rgba(52,152,219,0.05) 0%, transparent 60%),
+      linear-gradient(135deg, #0D1B2A 0%, #1A2E45 50%, #0D1B2A 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #app { position: relative; z-index: 1; height: 100vh; display: flex; flex-direction: column; }
+
+  /* ===== SCREENS ===== */
+  .screen { display: none; flex: 1; flex-direction: column; overflow: hidden; height: 100vh; }
+  .screen.active { display: flex; }
+
+  /* ===== LOGIN ===== */
+  #screen-login {
+    background: linear-gradient(160deg, #0D1B2A 0%, #1A2E45 60%, #0D1B2A 100%);
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    gap: 32px;
+  }
+
+  .logo-area {
+    text-align: center;
+    animation: fadeDown 0.8s ease;
+  }
+
+  .logo-emblem {
+    width: 90px; height: 90px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    border-radius: 28px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px;
+    margin: 0 auto 16px;
+    box-shadow: 0 12px 40px rgba(201,168,76,0.3);
+    position: relative;
+  }
+  .logo-emblem::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 31px;
+    border: 1px solid rgba(201,168,76,0.3);
+  }
+
+  .logo-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+  .logo-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .login-card {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 28px 24px;
+    width: 100%;
+    border: 1px solid rgba(201,168,76,0.15);
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.8s ease 0.2s both;
+  }
+
+  .login-card h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .login-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+  .input-group { margin-bottom: 16px; }
+  .input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; }
+  
+  .input-field {
+    width: 100%;
+    background: var(--deep2);
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .input-field:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
+  .input-field::placeholder { color: var(--text-muted); }
+
+  .pin-row { display: flex; gap: 12px; justify-content: center; margin: 8px 0; }
+  .pin-dot {
+    width: 52px; height: 52px;
+    background: var(--deep2);
+    border: 2px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    color: var(--text);
+    transition: all 0.2s;
+    position: relative;
+  }
+  .pin-dot.filled { border-color: var(--gold); }
+  .pin-dot.filled::after { content: '●'; font-size: 14px; color: var(--gold); }
+
+  .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+  .key-btn {
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 14px;
+    color: var(--text);
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: var(--font-body);
+    active-scale: 0.95;
+  }
+  .key-btn:active { transform: scale(0.92); background: var(--gold); color: var(--deep); }
+  .key-btn.del { font-size: 14px; }
+  .key-btn.submit { background: var(--gold); color: var(--deep); font-weight: 700; font-size: 13px; letter-spacing: 1px; }
+  .key-btn.submit:active { background: var(--gold-dark); }
+  .key-btn.empty { visibility: hidden; }
+
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    border: none; border-radius: var(--radius-sm);
+    padding: 16px;
+    color: var(--deep);
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-body);
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-secondary {
+    background: transparent;
+    border: 1.5px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    box-shadow: none;
+  }
+  .btn-danger { background: linear-gradient(135deg, #E74C3C, #C0392B); color: white; box-shadow: 0 4px 20px rgba(231,76,60,0.3); }
+  .btn-sm { padding: 10px 16px; font-size: 13px; width: auto; }
+
+  /* ===== TOP NAV ===== */
+  .top-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px 12px;
+    background: linear-gradient(to bottom, rgba(13,27,42,0.95), transparent);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-logo { font-family: var(--font-display); font-size: 16px; color: var(--gold); font-weight: 700; }
+  .nav-logo span { font-size: 10px; color: var(--text-muted); display: block; letter-spacing: 2px; text-transform: uppercase; }
+  .nav-btn { width: 40px; height: 40px; border-radius: 12px; background: var(--surface); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
+  .nav-right { display: flex; gap: 8px; }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    display: flex;
+    background: var(--surface);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 8px 0 20px;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 8px 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 12px;
+    margin: 0 4px;
+  }
+  .nav-item .nav-icon { font-size: 20px; transition: transform 0.2s; }
+  .nav-item .nav-label { font-size: 10px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
+  .nav-item.active .nav-icon { transform: scale(1.2); }
+  .nav-item.active .nav-label { color: var(--gold); }
+  .nav-item.active { background: rgba(201,168,76,0.08); }
+
+  /* ===== SCROLL AREA ===== */
+  .scroll-area { flex: 1; overflow-y: auto; padding: 0 16px 16px; }
+  .scroll-area::-webkit-scrollbar { display: none; }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 12px;
+  }
+  .card-gold { border-color: rgba(201,168,76,0.25); background: linear-gradient(135deg, var(--surface) 0%, rgba(201,168,76,0.05) 100%); }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat-card {
+    background: var(--surface2);
+    border-radius: 14px;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .stat-card .s-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .stat-card .s-value { font-size: 20px; font-weight: 700; color: var(--text); font-family: var(--font-display); }
+  .stat-card .s-value.gold { color: var(--gold); }
+  .stat-card .s-value.green { color: var(--success); }
+  .stat-card .s-value.red { color: var(--danger); }
+  .stat-card .s-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ===== MEMBER LIST ===== */
+  .member-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border-radius: 14px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,0.04);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .member-item:active { transform: scale(0.98); border-color: rgba(201,168,76,0.2); }
+  .member-avatar {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+    color: var(--deep);
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    overflow: hidden;
+  }
+  .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .member-info { flex: 1; min-width: 0; }
+  .member-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .member-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .member-badge {
+    padding: 4px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  }
+  .badge-admin { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .badge-super { background: rgba(52,152,219,0.15); color: #5DADE2; }
+  .badge-membre { background: rgba(46,204,113,0.15); color: #58D68D; }
+  .badge-blocked { background: rgba(231,76,60,0.15); color: #EC7063; }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px; margin-top: 8px;
+  }
+  .section-title h3 { font-size: 16px; font-weight: 600; color: var(--text); }
+  .section-title span { font-size: 12px; color: var(--gold); cursor: pointer; }
+
+  /* ===== TAG / CHIP ===== */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+  }
+  .chip-gold { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+  .chip-green { background: rgba(46,204,113,0.15); color: var(--success); border: 1px solid rgba(46,204,113,0.2); }
+  .chip-red { background: rgba(231,76,60,0.15); color: var(--danger); border: 1px solid rgba(231,76,60,0.2); }
+
+  /* ===== CALENDRIER ===== */
+  .calendar-wrap { }
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .cal-month { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--text); }
+  .cal-nav { width: 36px; height: 36px; border-radius: 10px; background: var(--surface2); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
+  .cal-days-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 8px; }
+  .cal-day-label { font-size: 11px; color: var(--text-muted); font-weight: 600; padding: 4px 0; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-cell {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .cal-cell.empty { visibility: hidden; }
+  .cal-cell.inactive { color: rgba(240,234,214,0.2); cursor: default; }
+  .cal-cell.cotisation { background: rgba(201,168,76,0.12); color: var(--gold); font-weight: 600; }
+  .cal-cell.pret { background: rgba(52,152,219,0.15); color: #5DADE2; font-weight: 600; }
+  .cal-cell.remb { background: rgba(46,204,113,0.15); color: var(--success); font-weight: 600; }
+  .cal-cell.today { border: 2px solid var(--gold); }
+  .cal-cell.paid { background: var(--gold); color: var(--deep); font-weight: 700; }
+  .cal-cell:active:not(.inactive) { transform: scale(0.88); }
+  .cal-legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+  .cal-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+  .cal-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  /* ===== BASES ===== */
+  .base-item {
+    background: var(--surface2);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .base-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .base-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .base-amount { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--gold); }
+  .base-progress { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+  .base-progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--gold), var(--gold-light)); transition: width 0.5s ease; }
+
+  /* ===== LOANS ===== */
+  .loan-card {
+    background: linear-gradient(135deg, rgba(52,152,219,0.1), rgba(13,27,42,0.5));
+    border: 1px solid rgba(52,152,219,0.2);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 10px;
+  }
+  .loan-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .loan-amount { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #5DADE2; }
+  .loan-progress { height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; margin: 10px 0; }
+  .loan-fill { height: 100%; border-radius: 4px; background: linear-gradient(to right, #3498DB, #5DADE2); transition: width 0.5s; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.7);
+    display: none; align-items: flex-end; justify-content: center;
+    backdrop-filter: blur(6px);
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .modal-sheet {
+    background: var(--surface);
+    border-radius: 24px 24px 0 0;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 24px 20px 40px;
+    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .modal-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin: 0 auto 20px; }
+  .modal-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 13px;
+    color: var(--text);
+    z-index: 2000;
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { border-color: rgba(46,204,113,0.3); }
+  .toast.error { border-color: rgba(231,76,60,0.3); }
+
+  /* ===== ROLE BADGES ===== */
+  .role-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+  }
+
+  /* ===== CHECKBOX ===== */
+  .check-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border: 1.5px solid rgba(255,255,255,0.04);
+    transition: all 0.2s;
+  }
+  .check-item.checked { border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.06); }
+  .checkbox {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    border: 2px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .check-item.checked .checkbox { background: var(--gold); border-color: var(--gold); }
+  .check-tick { color: var(--deep); font-size: 12px; font-weight: 700; display: none; }
+  .check-item.checked .check-tick { display: block; }
+
+  /* ===== PROFILE ===== */
+  .profile-avatar-lg {
+    width: 80px; height: 80px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 30px; font-weight: 700;
+    color: var(--deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .profile-avatar-lg img { width: 100%; height: 100%; object-fit: cover; }
+  .avatar-edit {
+    position: absolute; bottom: 0; right: 0;
+    width: 28px; height: 28px;
+    background: var(--gold);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 16px 0; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 6px 20px rgba(201,168,76,0.45); }
+  50% { box-shadow: 0 6px 32px rgba(201,168,76,0.85), 0 0 0 6px rgba(201,168,76,0.15); }
+}
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(10px); }
+  to { opacity:1; transform: translateY(0); }
+}
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 6px 20px rgba(201,168,76,0.45); }
+  50% { box-shadow: 0 6px 32px rgba(201,168,76,0.85), 0 0 0 6px rgba(201,168,76,0.15); }
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+
+  /* LOGOUT BUTTON */
+  .logout-btn {
+    color: var(--danger) !important;
+    border-color: rgba(231,76,60,0.2) !important;
+    transition: all 0.2s;
+  }
+  .logout-btn:active {
+    background: rgba(231,76,60,0.15) !important;
+    transform: scale(0.93);
+  }
+
+  /* LOGOUT CONFIRM MODAL */
+  .logout-confirm-overlay {
+    position: fixed; inset: 0; z-index: 5000;
+    background: rgba(0,0,0,0.75);
+    display: none; align-items: center; justify-content: center;
+    padding: 24px;
+    backdrop-filter: blur(8px);
+  }
+  .logout-confirm-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .logout-confirm-box {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 32px 24px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgba(231,76,60,0.2);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: fadeUp 0.25s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .shake { animation: shake 0.4s ease; }
+  .loading { animation: pulse 1.5s infinite; }
+
+  /* ===== ALERT ===== */
+  .alert {
+    border-radius: 12px; padding: 14px 16px;
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .alert-warn { background: rgba(243,156,18,0.12); border: 1px solid rgba(243,156,18,0.25); }
+  .alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .alert-text { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .alert-text strong { color: var(--text); }
+
+  /* ===== SELECT ===== */
+  .select-field {
+    width: 100%;
+    background: var(--deep2);
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    color: var(--text);
+    font-size: 15px;
+    font-family: var(--font-body);
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .select-field option { background: var(--deep2); }
+
+  /* ===== TABS ===== */
+  .tabs { display: flex; background: var(--surface2); border-radius: 12px; padding: 4px; margin-bottom: 16px; }
+  .tab-btn { flex: 1; padding: 10px; text-align: center; border-radius: 10px; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+  .tab-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+
+  /* ===== EMPTY STATE ===== */
+  .empty-state { text-align: center; padding: 40px 20px; }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .empty-text { color: var(--text-muted); font-size: 14px; }
+
+  /* FAB */
+  .fab {
+    position: fixed; bottom: 90px; right: 20px;
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+    cursor: pointer;
+    z-index: 50;
+    transition: all 0.2s;
+  }
+  .fab:active { transform: scale(0.92); }
+
+  /* Search */
+  .search-bar {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface2);
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .search-bar input {
+    flex: 1; background: none; border: none; outline: none;
+    color: var(--text); font-size: 14px; font-family: var(--font-body);
+  }
+  .search-bar input::placeholder { color: var(--text-muted); }
+
+  /* Row info */
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { font-size: 13px; color: var(--text-muted); }
+  .info-value { font-size: 13px; color: var(--text); font-weight: 500; text-align: right; }
+
+  .toggle-btn {
+    width: 50px; height: 26px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 13px;
+    padding: 3px;
+    cursor: pointer;
+    transition: background 0.3s;
+    position: relative;
+    border: none;
+  }
+  .toggle-btn.on { background: var(--gold); }
+  .toggle-knob {
+    width: 20px; height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+  .toggle-btn.on .toggle-knob { transform: translateX(24px); }
+
+  .blocked-overlay {
+    position: fixed; inset: 0; z-index: 3000;
+    background: var(--deep);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px; padding: 32px;
+    text-align: center;
+  }
+  .blocked-overlay .lock-icon { font-size: 64px; }
+
+  .change-pin-screen {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- BLOCKED SCREEN -->
+  <div class="blocked-overlay" id="blocked-screen" style="display:none;">
+    <div class="lock-icon">🔒</div>
+    <h2 style="font-family: var(--font-display); color: var(--gold);">Compte Bloqué</h2>
+    <p style="color: var(--text-muted); line-height: 1.6;">Votre compte a été bloqué après trop de tentatives incorrectes. Contactez l'administrateur pour le débloquer.</p>
+    <div id="admin-contact-block" style="background: var(--surface); border-radius: 14px; padding: 16px; width: 100%; border: 1px solid rgba(201,168,76,0.2);">
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">Administrateur</p>
+      <p id="admin-name-block" style="font-weight: 600; color: var(--text);">Chargement...</p>
+      <p id="admin-phone-block" style="color: var(--gold); font-size: 14px;">-</p>
+    </div>
+    <button class="btn btn-secondary btn-sm" onclick="showScreen('login')">← Retour</button>
+  </div>
+
+  <!-- CHANGE PIN SCREEN -->
+  <div class="screen" id="screen-change-pin">
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px 24px; gap:24px;">
+      <div style="text-align:center;">
+        <div style="font-size:48px; margin-bottom:12px;">🔐</div>
+        <h2 style="font-family:var(--font-display); font-size:22px; color:var(--gold);">Nouveau Code PIN</h2>
+        <p style="color:var(--text-muted); font-size:13px; margin-top:6px;" id="change-pin-subtitle">Première connexion - Choisissez votre PIN</p>
+      </div>
+      <div style="width:100%; background:var(--surface); border-radius:20px; padding:24px; border:1px solid rgba(201,168,76,0.15);">
+        <p id="pin-step-label" style="font-size:13px; color:var(--text-muted); text-align:center; margin-bottom:16px;">Entrez votre nouveau code PIN (4 chiffres)</p>
+        <div class="pin-row" id="change-pin-display">
+          <div class="pin-dot" id="cpd0"></div>
+          <div class="pin-dot" id="cpd1"></div>
+          <div class="pin-dot" id="cpd2"></div>
+          <div class="pin-dot" id="cpd3"></div>
+        </div>
+        <div class="keypad" style="margin-top:20px;">
+          <button class="key-btn" onclick="changePinKey('1')">1</button>
+          <button class="key-btn" onclick="changePinKey('2')">2</button>
+          <button class="key-btn" onclick="changePinKey('3')">3</button>
+          <button class="key-btn" onclick="changePinKey('4')">4</button>
+          <button class="key-btn" onclick="changePinKey('5')">5</button>
+          <button class="key-btn" onclick="changePinKey('6')">6</button>
+          <button class="key-btn" onclick="changePinKey('7')">7</button>
+          <button class="key-btn" onclick="changePinKey('8')">8</button>
+          <button class="key-btn" onclick="changePinKey('9')">9</button>
+          <button class="key-btn empty"></button>
+          <button class="key-btn" onclick="changePinKey('0')">0</button>
+          <button class="key-btn del" onclick="changePinDel()">⌫</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOGIN SCREEN -->
+  <div class="screen active" id="screen-login">
+    <div class="logo-area">
+      <div class="logo-emblem">🤝</div>
+      <div class="logo-title">ANDE DOLEL<br>SA DJEUKEUR</div>
+      <div class="logo-subtitle">Tontine • Dakar • CFA</div>
+    </div>
+    <div class="login-card">
+      <h2>Connexion</h2>
+      <p>Entrez votre numéro de téléphone et code PIN</p>
+      <div class="input-group">
+        <label>Email ou Téléphone</label>
+        <input type="text" class="input-field" id="login-id" placeholder="+221 77 000 00 00" oninput="formatPhoneInput(this)">
+      </div>
+      <div class="input-group">
+        <label>Code PIN</label>
+        <div class="pin-row" id="login-pin-display">
+          <div class="pin-dot" id="lpd0"></div>
+          <div class="pin-dot" id="lpd1"></div>
+          <div class="pin-dot" id="lpd2"></div>
+          <div class="pin-dot" id="lpd3"></div>
+        </div>
+        <div class="keypad" id="login-keypad">
+          <button class="key-btn" onclick="loginKey('1')">1</button>
+          <button class="key-btn" onclick="loginKey('2')">2</button>
+          <button class="key-btn" onclick="loginKey('3')">3</button>
+          <button class="key-btn" onclick="loginKey('4')">4</button>
+          <button class="key-btn" onclick="loginKey('5')">5</button>
+          <button class="key-btn" onclick="loginKey('6')">6</button>
+          <button class="key-btn" onclick="loginKey('7')">7</button>
+          <button class="key-btn" onclick="loginKey('8')">8</button>
+          <button class="key-btn" onclick="loginKey('9')">9</button>
+          <button class="key-btn empty"></button>
+          <button class="key-btn" onclick="loginKey('0')">0</button>
+          <button class="key-btn del" onclick="loginDel()">⌫</button>
+        </div>
+      </div>
+      <div id="login-error" style="font-size:12px; color:var(--danger); text-align:center; margin-top:8px; display:none;"></div>
+    </div>
+
+    <!-- QR CODE FAB -->
+    <div id="qr-fab" onclick="toggleQrPanel()" style="
+      position: fixed; bottom: 24px; right: 20px;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, #C9A84C 0%, #9A7A2E 100%);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(201,168,76,0.45);
+      z-index: 999;
+      transition: transform 0.2s ease;
+    " onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="2" width="8" height="8" rx="1.5" fill="#0D1B2A"/>
+        <rect x="3.5" y="3.5" width="5" height="5" rx="0.5" fill="#C9A84C"/>
+        <rect x="14" y="2" width="8" height="8" rx="1.5" fill="#0D1B2A"/>
+        <rect x="15.5" y="3.5" width="5" height="5" rx="0.5" fill="#C9A84C"/>
+        <rect x="2" y="14" width="8" height="8" rx="1.5" fill="#0D1B2A"/>
+        <rect x="3.5" y="15.5" width="5" height="5" rx="0.5" fill="#C9A84C"/>
+        <rect x="14" y="14" width="3" height="3" rx="0.5" fill="#0D1B2A"/>
+        <rect x="19" y="14" width="3" height="3" rx="0.5" fill="#0D1B2A"/>
+        <rect x="14" y="19" width="3" height="3" rx="0.5" fill="#0D1B2A"/>
+        <rect x="19" y="19" width="3" height="3" rx="0.5" fill="#0D1B2A"/>
+      </svg>
+    </div>
+
+    <!-- QR PANEL -->
+    <div id="qr-panel" style="
+      position: fixed; bottom: 86px; right: 16px;
+      background: linear-gradient(160deg, #1A2E45, #0D1B2A);
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 18px; padding: 16px;
+      width: 188px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+      z-index: 998; display: none;
+      flex-direction: column; align-items: center; gap: 10px;
+    ">
+      <div style="font-size:12px;font-weight:700;color:#C9A84C;text-align:center;">📲 Télécharger l'app</div>
+      <div style="font-size:10px;color:#9AA8BA;text-align:center;">Scannez ou téléchargez</div>
+      <div style="background:white;border-radius:10px;padding:8px;width:132px;height:132px;display:flex;align-items:center;justify-content:center;">
+        <canvas id="qr-canvas" width="116" height="116"></canvas>
+      </div>
+      <button onclick="downloadApp()" style="
+        background:linear-gradient(135deg,#C9A84C,#9A7A2E);
+        color:#0D1B2A;border:none;border-radius:10px;
+        padding:9px 0;font-size:11px;font-weight:700;
+        cursor:pointer;width:100%;letter-spacing:0.3px;
+      ">⬇ Télécharger</button>
+      <button onclick="shareApp()" style="
+        background: linear-gradient(135deg,#25D366,#128C7E);
+        color: white; border: none;
+        border-radius: 10px;
+        padding: 9px 0; font-size: 11px; font-weight: 700;
+        cursor: pointer; width: 100%; letter-spacing: 0.3px;
+      ">📤 Partager via WhatsApp</button>
+      <button onclick="installApp()" id="btn-install" style="
+        background: transparent;
+        color: #C9A84C;
+        border: 1px solid rgba(201,168,76,0.4);
+        border-radius: 10px;
+        padding: 8px 0; font-size: 11px; font-weight: 600;
+        cursor: pointer; width: 100%; letter-spacing: 0.3px;
+        display: none;
+      ">📲 Installer l'app</button>
+    </div>
+  </div>
+
+  <!-- ADMIN SCREENS -->
+  <!-- Dashboard Admin -->
+  <div class="screen" id="screen-admin-home">
+    <div class="top-nav">
+      <div>
+        <div class="nav-logo">ANDE DOLEL <div style="display:inline;"></div></div>
+        <div style="font-size:10px; color:var(--gold); letter-spacing:1px;">👑 ADMINISTRATEUR</div>
+      </div>
+      <div class="nav-right">
+        <div class="nav-btn" onclick="openModal('modal-notifications')">🔔</div>
+        <div class="nav-btn" onclick="goToAdminProfile()">👤</div>
+        <div class="nav-btn logout-btn" onclick="confirmLogout()" title="Se déconnecter">⏻</div>
+      </div>
+    </div>
+    <div class="scroll-area">
+      <!-- Stats globales -->
+      <div class="stat-grid">
+        <div class="stat-card card-gold">
+          <div class="s-label">Total Cotisé</div>
+          <div class="s-value gold" id="stat-total-cotise">0</div>
+          <div class="s-sub">FCFA</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(46,204,113,0.3);background:rgba(46,204,113,0.07);">
+          <div class="s-label">Solde Actuel</div>
+          <div class="s-value green" id="stat-solde-actuel">0</div>
+          <div class="s-sub">après prêts</div>
+        </div>
+        <div class="stat-card" style="border:1px solid rgba(93,173,226,0.3);">
+          <div class="s-label">Total Prêts</div>
+          <div class="s-value" style="color:#5DADE2" id="stat-total-prets">0</div>
+          <div class="s-sub">FCFA</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Membres</div>
+          <div class="s-value green" id="stat-membres">0</div>
+          <div class="s-sub">actifs</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Reste à rembourser</div>
+          <div class="s-value red" id="stat-reste-remb">0</div>
+          <div class="s-sub">FCFA</div>
+        </div>
+      </div>
+
+      <!-- Prochaine échéance -->
+      <div id="prochaine-echeance-banner" style="
+        background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05));
+        border: 1px solid rgba(201,168,76,0.3);
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      ">
+        <div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin-bottom:4px;">Prochaine échéance</div>
+          <div id="next-echeance-date" style="font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--gold);">—</div>
+          <div id="next-echeance-countdown" style="font-size:11px;color:var(--text-muted);margin-top:2px;"></div>
+        </div>
+        <div style="font-size:32px;">📅</div>
+      </div>
+
+      <!-- Actions rapides -->
+      <div class="section-title"><h3>Actions Rapides</h3></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+        <button class="btn" onclick="showAdminTab('cotisations')" style="padding:14px 10px; font-size:13px;">💰 Cotisations</button>
+        <button class="btn btn-secondary" onclick="showAdminTab('prets')" style="padding:14px 10px; font-size:13px;">🏦 Prêts</button>
+        <button class="btn btn-secondary" onclick="showAdminTab('membres')" style="padding:14px 10px; font-size:13px;">👥 Membres</button>
+        <button class="btn btn-secondary" onclick="openModal('modal-add-membre')" style="padding:14px 10px; font-size:13px;">➕ Ajouter</button>
+      </div>
+
+      <!-- Dernières activités -->
+      <div class="section-title"><h3>Activité Récente</h3></div>
+      <div id="recent-activity"></div>
+    </div>
+    <div class="bottom-nav" id="admin-bottom-nav">
+      <div class="nav-item active" onclick="switchAdminNav(0)" id="anav0"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></div>
+      <div class="nav-item" onclick="switchAdminNav(1)" id="anav1"><div class="nav-icon">👥</div><div class="nav-label">Membres</div></div>
+      <div class="nav-item" onclick="switchAdminNav(2)" id="anav2"><div class="nav-icon">💰</div><div class="nav-label">Cotisations</div></div>
+      <div class="nav-item" onclick="switchAdminNav(3)" id="anav3"><div class="nav-icon">🏦</div><div class="nav-label">Prêts</div></div>
+      <div class="nav-item" onclick="switchAdminNav(4)" id="anav4"><div class="nav-icon">⚙️</div><div class="nav-label">Paramètres</div></div>
+    </div>
+  </div>
+
+  <!-- Membres Tab Admin -->
+  <div class="screen" id="screen-admin-membres">
+    <div class="top-nav">
+      <div class="nav-btn" onclick="showAdminTab('home')">←</div>
+      <div style="font-family:var(--font-display); font-size:16px; color:var(--text);">Gestion Membres</div>
+      <div class="nav-btn" onclick="openModal('modal-add-membre')">➕</div>
+    </div>
+    <div class="scroll-area">
+      <div class="search-bar"><span>🔍</span><input type="text" placeholder="Rechercher un membre..." oninput="filterMembers(this.value)" id="member-search"></div>
+      <div id="admin-membres-list"></div>
+    </div>
+  </div>
+
+  <!-- Cotisations Tab Admin -->
+  <div class="screen" id="screen-admin-cotisations">
+    <div class="top-nav">
+      <div class="nav-btn" onclick="showAdminTab('home')">←</div>
+      <div style="font-family:var(--font-display); font-size:16px; color:var(--text);">Cotisations</div>
+      <div style="width:40px;"></div>
+    </div>
+    <div class="scroll-area">
+      <div class="tabs" id="cot-tabs">
+        <div class="tab-btn active" onclick="switchCotTab(0)">Par Membre</div>
+        <div class="tab-btn" onclick="switchCotTab(1)">Tout Cocher</div>
+      </div>
+      <div id="cotisations-content"></div>
+    </div>
+  </div>
+
+  <!-- Prêts Tab Admin -->
+  <div class="screen" id="screen-admin-prets">
+    <div class="top-nav">
+      <div class="nav-btn" onclick="showAdminTab('home')">←</div>
+      <div style="font-family:var(--font-display); font-size:16px; color:var(--text);">Gestion Prêts</div>
+      <div class="nav-btn" onclick="openModal('modal-add-pret')">➕</div>
+    </div>
+    <div class="scroll-area">
+      <div id="admin-prets-list"></div>
+    </div>
+  </div>
+
+  <!-- Paramètres Tab Admin -->
+  <div class="screen" id="screen-admin-settings">
+    <div class="top-nav">
+      <div class="nav-btn" onclick="showAdminTab('home')">←</div>
+      <div style="font-family:var(--font-display); font-size:16px; color:var(--text);">Paramètres</div>
+      <div style="width:40px;"></div>
+    </div>
+    <div class="scroll-area">
+      <div class="card">
+        <div class="section-title"><h3>Mon Profil Admin</h3></div>
+        <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+          <div class="profile-avatar-lg" id="admin-profile-avatar">A</div>
+          <div>
+            <div style="font-size:16px; font-weight:600;" id="admin-profile-name">Admin</div>
+            <div style="font-size:13px; color:var(--gold);">👑 Administrateur</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" onclick="openModal('modal-edit-profile')" style="margin-bottom:10px;">✏️ Modifier profil</button>
+        <button class="btn btn-secondary" onclick="openModal('modal-change-pin-settings')">🔐 Changer PIN</button>
+      </div>
+
+      <div class="card">
+        <div class="section-title"><h3>Gestion Superviseurs</h3></div>
+        <div id="superviseurs-list-settings"></div>
+        <button class="btn btn-secondary" style="margin-top:10px;" onclick="openModal('modal-add-superviseur')">➕ Ajouter Superviseur</button>
+      </div>
+
+      <div class="card">
+        <div class="section-title"><h3>Comptes Bloqués</h3></div>
+        <div id="blocked-accounts-list">
+          <div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucun compte bloqué</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title"><h3>Configuration Tontine</h3></div>
+        <div class="info-row">
+          <span class="info-label">Jours de cotisation</span>
+          <span class="info-value">Mer. / Dim.</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Devise</span>
+          <span class="info-value">🇸🇳 FCFA</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Intérêt sur prêts</span>
+          <span class="info-value" style="color:var(--success);">0% — Sans intérêt</span>
+        </div>
+      </div>
+
+      <button class="btn" style="margin-top:8px;margin-bottom:8px;background:linear-gradient(135deg,#C9A84C,#9A7A2E);border-color:#C9A84C;" onclick="openCotSettings()">📅 Paramètres de cotisation</button>
+      <button class="btn btn-danger" style="margin-top:8px;" onclick="logout()">🚪 Se Déconnecter</button>
+    </div>
+  </div>
+
+  <!-- MODAL COTISATION SETTINGS -->
+  <div class="modal-overlay" id="modal-cot-settings">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">📅 Paramètres de cotisation</div>
+        <button class="modal-close" onclick="closeModal('modal-cot-settings')">✕</button>
+      </div>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Date de début collective</div>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">S'applique à tous les membres sans date individuelle définie.</p>
+        <input type="date" class="input-field" id="global-start-date" style="margin-bottom:8px;">
+        <button class="btn btn-sm" onclick="saveGlobalStartDate()" style="width:100%;">✅ Appliquer à tous</button>
+      </div>
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:14px 0;">
+      <div style="margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Ajouter une échéance exceptionnelle</div>
+        <input type="date" class="input-field" id="extra-date-input" style="margin-bottom:8px;">
+        <button class="btn btn-sm" onclick="addExtraDate()" style="width:100%;">➕ Ajouter cette date</button>
+        <div id="extra-dates-list" style="margin-top:10px;"></div>
+      </div>
+      <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:14px 0;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Supprimer une échéance (dimanche)</div>
+        <input type="date" class="input-field" id="remove-date-input" style="margin-bottom:8px;">
+        <button class="btn btn-sm btn-secondary" onclick="removeDate()" style="width:100%;">➖ Retirer cette date</button>
+        <div id="removed-dates-list" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DATE DEBUT MEMBRE -->
+  <div class="modal-overlay" id="modal-membre-start-date">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">📅 Date de début - <span id="membre-start-date-name"></span></div>
+        <button class="modal-close" onclick="closeModal('modal-membre-start-date')">✕</button>
+      </div>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Choisissez la date à partir de laquelle les cotisations de ce membre commencent.</p>
+      <div class="input-group">
+        <label>Date de début (future uniquement)</label>
+        <input type="date" class="input-field" id="membre-start-date-input">
+      </div>
+      <div id="membre-start-date-error" style="font-size:12px;color:var(--danger);margin-bottom:8px;display:none;"></div>
+      <button class="btn" onclick="saveMembreStartDate()" style="width:100%;">✅ Confirmer</button>
+    </div>
+  </div>
+
+  <!-- SUPERVISEUR SCREENS -->
+  <div class="screen" id="screen-superviseur">
+    <div class="top-nav">
+      <div>
+        <div class="nav-logo">ANDE DOLEL</div>
+        <div style="font-size:10px; color:#5DADE2; letter-spacing:1px;">👁️ SUPERVISEUR</div>
+      </div>
+      <div class="nav-right">
+        <div class="nav-btn logout-btn" onclick="confirmLogout()" title="Se déconnecter">⏻</div>
+      </div>
+    </div>
+    <div class="scroll-area">
+      <div class="stat-grid">
+        <div class="stat-card card-gold">
+          <div class="s-label">Total Cotisé</div>
+          <div class="s-value gold" id="sv-stat-cotise">0</div>
+          <div class="s-sub">FCFA</div>
+        </div>
+        <div class="stat-card">
+          <div class="s-label">Total Prêts</div>
+          <div class="s-value" style="color:#5DADE2" id="sv-stat-prets">0</div>
+          <div class="s-sub">FCFA</div>
+        </div>
+      </div>
+      <div class="alert alert-warn" style="margin-bottom:12px;">
+        <span class="alert-icon">👁️</span>
+        <div class="alert-text"><strong>Mode Lecture Seule</strong> — Vous pouvez consulter toutes les données mais aucune modification n'est permise.</div>
+      </div>
+      <div class="section-title"><h3>Tous les Membres</h3></div>
+      <div id="sv-membres-list"></div>
+    </div>
+  </div>
+
+  <!-- MEMBRE SCREENS -->
+  <div class="screen" id="screen-membre-home">
+    <div class="top-nav">
+      <div>
+        <div class="nav-logo">ANDE DOLEL</div>
+        <div style="font-size:10px; color:#58D68D; letter-spacing:1px;">👤 MEMBRE</div>
+      </div>
+      <div class="nav-right">
+        <button class="toggle-btn" id="balance-toggle" onclick="toggleBalance()" title="Masquer/Afficher soldes"></button>
+        <div class="nav-btn" onclick="showMemberTab('profile')">👤</div>
+        <div class="nav-btn logout-btn" onclick="confirmLogout()" title="Se déconnecter">⏻</div>
+      </div>
+    </div>
+    <div class="scroll-area">
+      <!-- Bonjour -->
+      <div style="margin-bottom:16px;">
+        <h2 style="font-family:var(--font-display); font-size:20px; color:var(--text);">Bonjour, <span id="membre-prenom" style="color:var(--gold);">Membre</span> 👋</h2>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:4px;" id="membre-date-today">-</p>
+      </div>
+
+      <!-- Solde total -->
+      <div class="card card-gold" style="margin-bottom:12px;" id="solde-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div style="font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Total Cotisé</div>
+            <div style="font-family:var(--font-display); font-size:28px; font-weight:700; color:var(--gold);" id="membre-total-cotise">•••</div>
+            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">FCFA</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;" id="membre-bases-count">0 base(s)</div>
+            <span class="chip chip-green" id="membre-status-chip">Actif</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mes Bases -->
+      <div class="section-title">
+        <h3>Mes Bases de Cotisation</h3>
+        <span onclick="showMemberTab('calendrier')">Calendrier →</span>
+      </div>
+      <div id="membre-bases-list"></div>
+
+      <!-- Prêt actif -->
+      <div id="membre-pret-section" style="display:none;">
+        <div class="section-title"><h3>Mon Prêt en Cours</h3></div>
+        <div class="loan-card" id="membre-pret-card"></div>
+      </div>
+
+      <!-- Contacts -->
+      <div class="section-title"><h3>Contacts</h3></div>
+      <div id="contacts-list"></div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="switchMembreNav(0)"><div class="nav-icon">🏠</div><div class="nav-label">Accueil</div></div>
+      <div class="nav-item" onclick="switchMembreNav(1)"><div class="nav-icon">📅</div><div class="nav-label">Calendrier</div></div>
+      <div class="nav-item" onclick="switchMembreNav(2)"><div class="nav-icon">🏦</div><div class="nav-label">Prêts</div></div>
+      <div class="nav-item" onclick="switchMembreNav(3)"><div class="nav-icon">👤</div><div class="nav-label">Profil</div></div>
+    </div>
+  </div>
+
+  <!-- Membre Calendrier -->
+  <div class="screen" id="screen-membre-calendrier">
+    <div class="top-nav">
+      <div class="nav-btn" onclick="showMemberTab('home')">←</div>
+      <div style="font-family:var(--font-display); font-size:16px; color:var(--text);">Mon Calendrier</div>
+      <div style="width:40px;"></div>
+    </div>
+    <div class="scroll-area">
+      <div id="membre-cal-bases-select" style="margin-bottom:12px; display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;"></div>
+      <div id="membre-calendar-wrap"></div>
+      <div class="cal-legend">
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:var(--gold);"></div> Cotisation payée</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(201,168,76,0.3);"></div> Jour cotisation</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(52,152,219,0.5);"></div> Prêt accordé</div>
+        <div class="cal-legend-item"><div class="cal-legend-dot" style="background:rgba(46,204,113,0.5);"></div> Remboursement</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Membre Prêts -->
+  <div class="screen" id="screen-membre-prets">
+    <div class="top-nav">
+      <div class="nav-btn" onclick="showMemberTab('home')">←</div>
+      <div style="font-family:var(--font-display); font-size:16px; color:var(--text);">Mes Prêts</div>
+      <div style="width:40px;"></div>
+    </div>
+    <div class="scroll-area">
+      <div id="membre-prets-list"></div>
+    </div>
+  </div>
+
+  <!-- Membre Profil -->
+  <div class="screen" id="screen-membre-profil">
+    <div class="top-nav">
+      <div class="nav-btn" onclick="showMemberTab('home')">←</div>
+      <div style="font-family:var(--font-display); font-size:16px; color:var(--text);">Mon Profil</div>
+      <div style="width:40px;"></div>
+    </div>
+    <div class="scroll-area">
+      <div class="card" style="text-align:center; padding:28px 20px;">
+        <div style="position:relative; display:inline-block; margin-bottom:16px;">
+          <div class="profile-avatar-lg" id="membre-profil-avatar" style="margin:0 auto;" onclick="changeProfilePhoto()">M
+            <div class="avatar-edit">📷</div>
+          </div>
+        </div>
+        <div style="font-family:var(--font-display); font-size:20px; font-weight:700;" id="membre-profil-nom">Membre</div>
+        <div style="color:var(--text-muted); font-size:13px; margin-top:4px;" id="membre-profil-role">Membre</div>
+        <input type="file" id="photo-input" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Informations</h3></div>
+        <div id="membre-profil-infos"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;" onclick="openModal('modal-edit-profile')">✏️ Modifier</button>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>Sécurité</h3></div>
+        <button class="btn btn-secondary" onclick="openModal('modal-change-pin-settings')">🔐 Changer mon PIN</button>
+      </div>
+      <button class="btn btn-danger" style="margin-top:8px;" onclick="logout()">🚪 Se Déconnecter</button>
+    </div>
+  </div>
+
+  <!-- ===== MODALS ===== -->
+
+  <!-- Add Membre Modal -->
+  <div class="modal-overlay" id="modal-add-membre">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nouveau Membre</div>
+      <div class="modal-sub">Remplissez les informations du nouveau membre</div>
+      <div class="input-group"><label>Prénom *</label><input type="text" class="input-field" id="new-prenom" placeholder="Prénom"></div>
+      <div class="input-group"><label>Nom *</label><input type="text" class="input-field" id="new-nom" placeholder="Nom de famille"></div>
+      <div class="input-group"><label>Numéro de téléphone *</label><input type="tel" class="input-field" id="new-contact" placeholder="+221 77 000 00 00" oninput="formatPhoneInput(this)" inputmode="numeric"></div>
+      <div class="input-group"><label>Code PIN initial (4 chiffres)</label><input type="password" class="input-field" id="new-pin" placeholder="••••" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+      <div class="input-group"><label>Rôle</label>
+        <select class="select-field" id="new-role">
+          <option value="membre">Membre</option>
+          <option value="superviseur">Superviseur</option>
+        </select>
+      </div>
+      <div id="new-bases-section">
+        <label style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:8px; font-weight:500; letter-spacing:0.5px; text-transform:uppercase;">Bases de Cotisation (1 à 3)</label>
+        <div id="new-bases-list">
+          <div class="base-input-row" style="display:flex; gap:8px; margin-bottom:8px;">
+            <input type="text" class="input-field" placeholder="Nom (ex: Base A)" style="flex:1;" value="Base A">
+            <input type="number" class="input-field" placeholder="500" style="width:100px;" value="500">
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="addBaseInput()" style="margin-bottom:16px;" id="add-base-btn">+ Ajouter base</button>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-membre')" style="flex:1;">Annuler</button>
+        <button class="btn" onclick="saveMembre()" style="flex:2;">✓ Créer Membre</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Superviseur Modal -->
+  <div class="modal-overlay" id="modal-add-superviseur">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nouveau Superviseur</div>
+      <div class="input-group"><label>Prénom *</label><input type="text" class="input-field" id="sv-prenom" placeholder="Prénom"></div>
+      <div class="input-group"><label>Nom *</label><input type="text" class="input-field" id="sv-nom" placeholder="Nom"></div>
+      <div class="input-group"><label>Contact *</label><input type="text" class="input-field" id="sv-contact" placeholder="+221 77 000 00 00" oninput="formatPhoneInput(this)"></div>
+      <div class="input-group"><label>Code PIN initial</label><input type="password" class="input-field" id="sv-pin" placeholder="••••" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-superviseur')" style="flex:1;">Annuler</button>
+        <button class="btn" onclick="saveSuperviseur()" style="flex:2;">✓ Créer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Membre Detail Modal (Admin) -->
+  <div class="modal-overlay" id="modal-membre-detail">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div id="modal-membre-detail-content"></div>
+    </div>
+  </div>
+
+  <!-- Cotisation Modal (Admin - cocher jours) -->
+  <div class="modal-overlay" id="modal-cotisation-membre">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="cot-modal-title">Cotisations</div>
+      <div class="modal-sub" id="cot-modal-sub">Sélectionnez les jours payés</div>
+      <div id="cot-modal-content"></div>
+      <div style="margin-top:16px; display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-cotisation-membre')" style="flex:1;">Fermer</button>
+        <button class="btn" onclick="saveCotisations()" style="flex:2;">💾 Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Prêt Modal -->
+  <div class="modal-overlay" id="modal-add-pret">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Nouveau Prêt</div>
+      <div class="modal-sub">Accordez un prêt à un membre</div>
+      <div class="input-group"><label>Membre</label>
+        <select class="select-field" id="pret-membre-select"></select>
+      </div>
+      <div class="input-group"><label>Montant (FCFA)</label><input type="number" class="input-field" id="pret-montant" placeholder="50000"></div>
+      <input type="hidden" id="pret-taux" value="0">
+      <div class="input-group"><label>Date d'accord</label><input type="date" class="input-field" id="pret-date-debut"></div>
+      <div class="input-group"><label>Date limite de remboursement</label><input type="date" class="input-field" id="pret-date-fin"></div>
+      <div class="card" style="background:var(--deep2); margin-bottom:16px;" id="pret-preview">
+        <div class="info-row"><span class="info-label">Montant principal</span><span class="info-value" id="prev-principal">0 FCFA</span></div>
+        <div class="info-row" style="display:none;"><span class="info-label">Intérêts</span><span class="info-value" id="prev-interet">0 FCFA</span></div>
+        <div class="info-row" style="border:none;"><span class="info-label" style="font-weight:600; color:var(--text);">Total à rembourser</span><span class="info-value" style="color:var(--gold); font-weight:700;" id="prev-total">0 FCFA</span></div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-add-pret')" style="flex:1;">Annuler</button>
+        <button class="btn" onclick="savePret()" style="flex:2;">✓ Accorder Prêt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Remboursement Modal -->
+  <div class="modal-overlay" id="modal-remboursement">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Enregistrer Remboursement</div>
+      <div id="remb-modal-content"></div>
+      <input type="hidden" id="remb-pret-id">
+      <div style="margin-top:16px; display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-remboursement')" style="flex:1;">Annuler</button>
+        <button class="btn" onclick="saveRemboursement()" style="flex:2;">💰 Confirmer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div class="modal-overlay" id="modal-edit-profile">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Modifier Profil</div>
+      <div class="input-group"><label>Prénom *</label><input type="text" class="input-field" id="edit-prenom" placeholder="Prénom"></div>
+      <div class="input-group"><label>Nom *</label><input type="text" class="input-field" id="edit-nom" placeholder="Nom"></div>
+      <div class="input-group"><label>Date de naissance</label><input type="date" class="input-field" id="edit-dob"></div>
+      <div class="input-group"><label>Adresse</label><input type="text" class="input-field" id="edit-adresse" placeholder="Dakar, Sénégal"></div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-edit-profile')" style="flex:1;">Annuler</button>
+        <button class="btn" onclick="saveProfile()" style="flex:2;">✓ Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change PIN Settings Modal -->
+  <div class="modal-overlay" id="modal-change-pin-settings">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Changer mon PIN</div>
+      <div class="input-group"><label>Ancien PIN</label><input type="password" class="input-field" id="old-pin" placeholder="••••" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+      <div class="input-group"><label>Nouveau PIN</label><input type="password" class="input-field" id="new-pin-1" placeholder="••••" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+      <div class="input-group"><label>Confirmer nouveau PIN</label><input type="password" class="input-field" id="new-pin-2" placeholder="••••" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')"></div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-change-pin-settings')" style="flex:1;">Annuler</button>
+        <button class="btn" onclick="changeMyPin()" style="flex:2;">🔐 Changer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications Modal -->
+  <div class="modal-overlay" id="modal-notifications">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Notifications</div>
+      <div id="notifications-list">
+        <div class="empty-state"><div class="empty-icon">🔔</div><div class="empty-text">Aucune notification</div></div>
+      </div>
+      <button class="btn btn-secondary" style="margin-top:16px;" onclick="closeModal('modal-notifications')">Fermer</button>
+    </div>
+  </div>
+
+  <!-- Logout Confirm Modal -->
+  <div class="logout-confirm-overlay" id="logout-confirm-overlay">
+    <div class="logout-confirm-box">
+      <div style="font-size:52px; margin-bottom:16px;">⏻</div>
+      <h3 style="font-family:var(--font-display); font-size:20px; color:var(--text); margin-bottom:8px;">Déconnexion</h3>
+      <p style="color:var(--text-muted); font-size:14px; margin-bottom:28px; line-height:1.5;">Êtes-vous sûr(e) de vouloir vous déconnecter de <strong style='color:var(--text);'>ANDE DOLEL SA DJEUKEUR</strong> ?</p>
+      <div style="display:flex; gap:12px;">
+        <button class="btn btn-secondary" onclick="document.getElementById('logout-confirm-overlay').classList.remove('open')" style="flex:1;">Annuler</button>
+        <button class="btn btn-danger" onclick="doLogout()" style="flex:1;">⏻ Déconnecter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+<!-- MODAL EDIT BASE -->
+<div class="modal-overlay" id="modal-edit-base">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">✏️ Modifier la cotisation</div>
+      <button class="modal-close" onclick="closeModal('modal-edit-base')">✕</button>
+    </div>
+    <div id="edit-base-info" style="font-size:13px;color:var(--text-muted);margin-bottom:14px;"></div>
+    <div class="input-group">
+      <label>Nouveau montant (FCFA/séance)</label>
+      <input type="number" class="input-field" id="edit-base-montant" placeholder="Ex: 5000" min="1">
+    </div>
+    <div class="input-group">
+      <label>Nouveau nom de la base (optionnel)</label>
+      <input type="text" class="input-field" id="edit-base-nom" placeholder="Ex: Base 1">
+    </div>
+    <button class="btn" onclick="saveEditBase()" style="width:100%;">✅ Enregistrer</button>
+  </div>
+</div>
+
+<!-- MODAL RETRAIT -->
+<div class="modal-overlay" id="modal-retrait">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">💸 Retrait de cotisation</div>
+      <button class="modal-close" onclick="closeModal('modal-retrait')">✕</button>
+    </div>
+    <div id="retrait-recap" style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:14px;margin-bottom:16px;"></div>
+    <div class="input-group">
+      <label>Montant à retirer (FCFA)</label>
+      <input type="number" class="input-field" id="retrait-montant" placeholder="Ex: 50000" min="1" oninput="updateRetraitCalc()">
+    </div>
+    <div id="retrait-calc" style="display:none;background:rgba(230,126,34,0.1);border:1px solid rgba(230,126,34,0.3);border-radius:10px;padding:12px;margin-bottom:12px;font-size:13px;"></div>
+    <div class="input-group">
+      <label>Note (optionnel)</label>
+      <input type="text" class="input-field" id="retrait-note" placeholder="Raison du retrait...">
+    </div>
+    <div id="retrait-error" style="font-size:12px;color:var(--danger);text-align:center;margin-bottom:8px;display:none;"></div>
+    <button class="btn" onclick="saveRetrait()" style="width:100%;background:linear-gradient(135deg,#E67E22,#CA6F1E);border-color:#E67E22;">✅ Confirmer le retrait</button>
+  </div>
+</div>
+
+
+
+</div>
+
+<script>
+// ============================================================
+// DATABASE (LocalStorage-based)
+// ============================================================
+const DB_KEY = 'adsd_db';
+
+function initDB() {
+  // Force sync admin credentials in case of update
+  let existing = null;
+  try { existing = localStorage.getItem(DB_KEY); } catch(e) {}
+  if (existing) {
+    try {
+      const db = JSON.parse(existing);
+      const admin = db.users.find(u => u.id === 'admin_001');
+      if (admin) {
+        admin.contact = '+221784257605';
+        if (!db.retraits) db.retraits = [];
+        if (!db.cotSettings) db.cotSettings = { globalStartDate: null, extraDates: [], removedDates: [] };
+        admin.pin = '2424';
+        admin.prenom = 'Saphiatou';
+        admin.nom = 'Diallo';
+        localStorage.setItem(DB_KEY, JSON.stringify(db));
+      }
+    } catch(e) {}
+  }
+  if (!existing) {
+    const db = {
+      users: [
+        {
+          id: 'admin_001',
+          role: 'admin',
+          prenom: 'Saphiatou',
+          nom: 'Diallo',
+          contact: '+221784257605',
+          pin: '2424',
+          firstLogin: false,
+          blocked: false,
+          failedAttempts: 0,
+          photo: null,
+          dob: null,
+          adresse: 'Dakar, Sénégal',
+          createdAt: new Date().toISOString()
+        }
+      ],
+      bases: [],       // {id, userId, nom, montant, createdAt}
+      cotisations: [], // {id, userId, baseId, date, montant, paid}
+      prets: [],       // {id, userId, montant, taux, totalARembourser, dateDebut, dateFin, rembourses:[{date,montant}], statut:'actif'|'soldé'}
+      retraits: [],    // {id, userId, montant, date, note, adminId}
+      cotSettings: {   // global cotisation settings
+        globalStartDate: null,
+        extraDates: [],
+        removedDates: []
+      }
+      activites: []    // {id, type, description, date, userId}
+    };
+    saveDB(db);
+    return db;
+  }
+  try { return JSON.parse(existing); } catch(e) { return {}; }
+}
+
+function saveDB(db) {
+  try { localStorage.setItem(DB_KEY, JSON.stringify(db)); } catch(e) {}
+}
+
+function getDB() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY) || '{}'); } catch(e) { return {}; }
+}
+
+// ============================================================
+// APP STATE
+// ============================================================
+let currentUser = null;
+let db = null;
+try { db = initDB(); } catch(e) { db = {}; }
+let loginPin = '';
+let changePinStep = 1;
+let changePinFirst = '';
+let changePinBuffer = '';
+let balanceVisible = true;
+let currentCotMembre = null;
+let currentCotBase = null;
+let currentCalBase = null;
+let currentCalDate = new Date();
+let currentPretId = null;
+let cotChecked = {}; // {date: bool}
+
+// ============================================================
+// UTILS
+// ============================================================
+function fmtCFA(n) { return new Intl.NumberFormat('fr-SN').format(Math.round(n)) + ' FCFA'; }
+function fmtDate(d) { return new Date(d).toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'}); }
+function fmtDateShort(d) { return new Date(d).toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric'}); }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const s = document.getElementById('screen-'+id);
+  if (s) s.classList.add('active');
+}
+
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  const icons = {success:'✅', error:'❌', info:'ℹ️'};
+  t.innerHTML = (icons[type]||'') + ' ' + msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function addActivity(type, desc, userId) {
+  db = getDB();
+  db.activites.unshift({id: uid(), type, description: desc, date: new Date().toISOString(), userId: userId || (currentUser ? currentUser.id : '')});
+  if (db.activites.length > 50) db.activites = db.activites.slice(0, 50);
+  saveDB(db);
+}
+
+function formatPhoneInput(el) {
+  const cursor = el.selectionStart;
+  const raw = el.value;
+
+  // If it looks like an email, don't touch it
+  if (raw.includes('@')) return;
+
+  // Strip everything except digits and leading +
+  let digits = raw.replace(/[^\d]/g, '');
+
+  // Senegalese numbers: +221 XX XXX XX XX (9 digits after 221)
+  // Also handle local: 7X XXX XX XX (9 digits starting with 7)
+  let formatted = '';
+
+  if (digits.length === 0) {
+    el.value = '';
+    return;
+  }
+
+  // Remove leading 221 if present (will be re-added)
+  if (digits.startsWith('221')) {
+    digits = digits.slice(3);
+  }
+
+  // Cap at 9 digits
+  if (digits.length > 9) digits = digits.slice(0, 9);
+
+  // Format: XX XXX XX XX  →  77 123 45 67
+  const p1 = digits.slice(0, 2);
+  const p2 = digits.slice(2, 5);
+  const p3 = digits.slice(5, 7);
+  const p4 = digits.slice(7, 9);
+
+  const parts = [p1, p2, p3, p4].filter(p => p.length > 0);
+
+  if (digits.length > 0) {
+    formatted = '+221 ' + parts.join(' ');
+  }
+
+  el.value = formatted;
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+function loginKey(k) {
+  if (loginPin.length >= 4) return;
+  loginPin += k;
+  updateLoginDots();
+  if (loginPin.length === 4) setTimeout(doLogin, 200);
+}
+function loginDel() {
+  loginPin = loginPin.slice(0,-1);
+  updateLoginDots();
+}
+function updateLoginDots() {
+  for (let i=0;i<4;i++) {
+    const d = document.getElementById('lpd'+i);
+    d.className = 'pin-dot' + (i < loginPin.length ? ' filled' : '');
+  }
+}
+
+function doLogin() {
+  db = getDB();
+  const rawId = document.getElementById('login-id').value.trim();
+  const id = rawId.replace(/\s/g,'');
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  // Validate: must be phone number only
+  const digits = id.replace(/[^0-9]/g,'');
+  if (digits.length < 8) {
+    errEl.textContent = '📱 Entrez votre numéro de téléphone';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Find user by contact (phone only)
+  const user = db.users.find(u => {
+    const c = (u.contact||'').replace(/\s/g,'').replace(/[^0-9]/g,'');
+    return c === digits || c.endsWith(digits) || digits.endsWith(c);
+  });
+
+  if (!user) {
+    errEl.textContent = '❌ Numéro de téléphone introuvable';
+    errEl.style.display = 'block';
+    document.getElementById('login-pin-display').classList.add('shake');
+    setTimeout(() => document.getElementById('login-pin-display').classList.remove('shake'), 400);
+    loginPin = '';
+    updateLoginDots();
+    return;
+  }
+
+  if (user.blocked) {
+    showBlockedScreen(user);
+    return;
+  }
+
+  if (user.pin !== loginPin) {
+    user.failedAttempts = (user.failedAttempts || 0) + 1;
+    if (user.failedAttempts >= 5) {
+      user.blocked = true;
+      saveDB(db);
+      showBlockedScreen(user);
+      return;
+    }
+    const remaining = 5 - user.failedAttempts;
+    errEl.textContent = `❌ PIN incorrect. ${remaining} tentative(s) restante(s)`;
+    errEl.style.display = 'block';
+    document.getElementById('login-pin-display').classList.add('shake');
+    setTimeout(() => document.getElementById('login-pin-display').classList.remove('shake'), 400);
+    saveDB(db);
+    loginPin = '';
+    updateLoginDots();
+    return;
+  }
+
+  // Success
+  user.failedAttempts = 0;
+  saveDB(db);
+  currentUser = user;
+  startSession();
+  loginPin = '';
+  updateLoginDots();
+
+  if (user.firstLogin) {
+    // Force PIN change
+    changePinStep = 1;
+    changePinFirst = '';
+    changePinBuffer = '';
+    document.getElementById('change-pin-subtitle').textContent = 'Première connexion - Choisissez votre PIN';
+    document.getElementById('pin-step-label').textContent = 'Entrez votre nouveau code PIN (4 chiffres)';
+    updateChangePinDots();
+    showScreen('change-pin');
+    return;
+  }
+
+  enterApp(user);
+}
+
+function showBlockedScreen(user) {
+  db = getDB();
+  const admin = db.users.find(u => u.role === 'admin');
+  document.getElementById('blocked-screen').style.display = 'flex';
+  if (admin) {
+    document.getElementById('admin-name-block').textContent = admin.prenom + ' ' + admin.nom;
+    document.getElementById('admin-phone-block').textContent = admin.contact;
+  }
+  loginPin = '';
+  updateLoginDots();
+}
+
+function enterApp(user) {
+  db = getDB();
+  if (user.role === 'admin') {
+    refreshAdminStats();
+    renderRecentActivity();
+    showScreen('admin-home');
+  } else if (user.role === 'superviseur') {
+    refreshSuperviseurStats();
+    renderSvMembresList();
+    showScreen('superviseur');
+  } else {
+    refreshMembreHome();
+    showScreen('membre-home');
+  }
+}
+
+// ============================================================
+// CHANGE PIN
+// ============================================================
+let changePinKeys = '';
+function changePinKey(k) {
+  if (changePinBuffer.length >= 4) return;
+  changePinBuffer += k;
+  updateChangePinDots();
+  if (changePinBuffer.length === 4) setTimeout(processChangePinStep, 200);
+}
+function changePinDel() {
+  changePinBuffer = changePinBuffer.slice(0,-1);
+  updateChangePinDots();
+}
+function updateChangePinDots() {
+  for (let i=0;i<4;i++) {
+    const d = document.getElementById('cpd'+i);
+    if (d) d.className = 'pin-dot' + (i < changePinBuffer.length ? ' filled' : '');
+  }
+}
+function processChangePinStep() {
+  if (changePinStep === 1) {
+    changePinFirst = changePinBuffer;
+    changePinBuffer = '';
+    changePinStep = 2;
+    document.getElementById('pin-step-label').textContent = 'Confirmez votre nouveau code PIN';
+    updateChangePinDots();
+  } else {
+    if (changePinBuffer !== changePinFirst) {
+      showToast('Les codes PIN ne correspondent pas', 'error');
+      changePinBuffer = '';
+      changePinStep = 1;
+      changePinFirst = '';
+      document.getElementById('pin-step-label').textContent = 'Entrez votre nouveau code PIN (4 chiffres)';
+      updateChangePinDots();
+      return;
+    }
+    // Save new PIN
+    db = getDB();
+    const u = db.users.find(u => u.id === currentUser.id);
+    u.pin = changePinBuffer;
+    u.firstLogin = false;
+    saveDB(db);
+    currentUser = u;
+    changePinBuffer = '';
+    changePinStep = 1;
+    showToast('PIN mis à jour avec succès !', 'success');
+    enterApp(currentUser);
+  }
+}
+
+// ============================================================
+// CHANGE PIN FROM SETTINGS
+// ============================================================
+function changeMyPin() {
+  db = getDB();
+  const oldPin = document.getElementById('old-pin').value;
+  const newPin1 = document.getElementById('new-pin-1').value;
+  const newPin2 = document.getElementById('new-pin-2').value;
+  const u = db.users.find(u => u.id === currentUser.id);
+  if (u.pin !== oldPin) { showToast('Ancien PIN incorrect', 'error'); return; }
+  if (newPin1.length !== 4 || !/^\d{4}$/.test(newPin1)) { showToast('Le PIN doit être 4 chiffres', 'error'); return; }
+  if (newPin1 !== newPin2) { showToast('Les PINs ne correspondent pas', 'error'); return; }
+  u.pin = newPin1;
+  saveDB(db);
+  currentUser = u;
+  closeModal('modal-change-pin-settings');
+  showToast('PIN changé avec succès !', 'success');
+}
+
+// ============================================================
+// LOGOUT
+// ============================================================
+
+// ============================================================
+// LOGOUT WITH CONFIRMATION
+// ============================================================
+function confirmLogout() {
+  document.getElementById('logout-confirm-overlay').classList.add('open');
+}
+
+function doLogout() {
+  document.getElementById('logout-confirm-overlay').classList.remove('open');
+  logout();
+}
+
+function logout() {
+  stopSession();
+  currentUser = null;
+  loginPin = '';
+  document.getElementById('login-id').value = '';
+  updateLoginDots();
+  document.getElementById('login-error').style.display = 'none';
+  document.getElementById('blocked-screen').style.display = 'none';
+  showScreen('login');
+}
+
+// ============================================================
+// ADMIN NAVIGATION
+// ============================================================
+function showAdminTab(tab) {
+  const screens = ['admin-home', 'admin-membres', 'admin-cotisations', 'admin-prets', 'admin-settings'];
+  screens.forEach(s => {
+    document.getElementById('screen-'+s).classList.remove('active');
+  });
+  const navMap = {home:0, membres:1, cotisations:2, prets:3, settings:4};
+  const screenMap = {home:'admin-home', membres:'admin-membres', cotisations:'admin-cotisations', prets:'admin-prets', settings:'admin-settings'};
+  document.getElementById('screen-'+screenMap[tab]).classList.add('active');
+
+  for(let i=0;i<5;i++) {
+    document.getElementById('anav'+i).classList.toggle('active', i === navMap[tab]);
+  }
+
+  if (tab === 'membres') renderAdminMembres();
+  if (tab === 'cotisations') renderAdminCotisations();
+  if (tab === 'prets') renderAdminPrets();
+  if (tab === 'settings') renderSettings();
+}
+
+function switchAdminNav(idx) {
+  const tabs = ['home','membres','cotisations','prets','settings'];
+  showAdminTab(tabs[idx]);
+}
+
+function goToAdminProfile() { showAdminTab('settings'); }
+
+// ============================================================
+// ADMIN STATS
+// ============================================================
+function refreshAdminStats() {
+  db = getDB();
+  const membres = db.users.filter(u => u.role === 'membre');
+  const totalCotise = db.cotisations.filter(c => c.paid).reduce((s,c) => s + c.montant, 0);
+  const totalPrets = db.prets.reduce((s,p) => s + p.montant, 0);
+  const totalRemb = db.prets.reduce((s,p) => s + (p.rembourses||[]).reduce((ss,r) => ss+r.montant, 0), 0);
+  const resteRemb = db.prets.filter(p=>p.statut==='actif').reduce((s,p) => s + (p.totalARembourser - (p.rembourses||[]).reduce((ss,r)=>ss+r.montant,0)), 0);
+
+  const totalRetraits = (db.retraits||[]).reduce((s,r)=>s+r.montant,0);
+  const soldeActuel = totalCotise - resteRemb - totalRetraits;
+  document.getElementById('stat-total-cotise').textContent = fmtCFA(totalCotise).replace(' FCFA','');
+  document.getElementById('stat-solde-actuel').textContent = fmtCFA(Math.max(0,soldeActuel)).replace(' FCFA','');
+  document.getElementById('stat-total-prets').textContent = fmtCFA(totalPrets).replace(' FCFA','');
+  document.getElementById('stat-membres').textContent = membres.length;
+  document.getElementById('stat-reste-remb').textContent = fmtCFA(resteRemb).replace(' FCFA','');
+  refreshNextEcheance();
+}
+
+function renderRecentActivity() {
+  db = getDB();
+  const container = document.getElementById('recent-activity');
+  if (!db.activites || db.activites.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-text">Aucune activité récente</div></div>';
+    return;
+  }
+  container.innerHTML = db.activites.slice(0,8).map(a => `
+    <div style="display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.04);">
+      <div style="width:36px; height:36px; border-radius:10px; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;">
+        ${a.type==='cotisation'?'💰':a.type==='pret'?'🏦':a.type==='remboursement'?'💵':a.type==='nouveau_membre'?'👤':'📝'}
+      </div>
+      <div>
+        <div style="font-size:13px; color:var(--text);">${a.description}</div>
+        <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${fmtDateShort(a.date)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// ADMIN MEMBRES
+// ============================================================
+function renderAdminMembres(filter='') {
+  db = getDB();
+  const container = document.getElementById('admin-membres-list');
+  let users = db.users.filter(u => u.role !== 'admin');
+  if (filter) {
+    const f = filter.toLowerCase();
+    users = users.filter(u => (u.prenom+' '+u.nom).toLowerCase().includes(f) || u.contact.includes(f));
+  }
+  if (users.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">Aucun membre trouvé</div></div>';
+    return;
+  }
+  container.innerHTML = users.map(u => {
+    const bases = db.bases.filter(b => b.userId === u.id);
+    const cotPaid = db.cotisations.filter(c => c.userId === u.id && c.paid).reduce((s,c)=>s+c.montant,0);
+    return `
+    <div class="member-item" onclick="openMemberDetail('${u.id}')">
+      <div class="member-avatar">${u.photo ? `<img src="${u.photo}">` : getInitials(u)}</div>
+      <div class="member-info">
+        <div class="member-name">${u.prenom} ${u.nom}</div>
+        <div class="member-meta">${u.contact} • ${fmtCFA(cotPaid)}</div>
+      </div>
+      <div>
+        <span class="member-badge ${u.blocked ? 'badge-blocked' : u.role === 'superviseur' ? 'badge-super' : 'badge-membre'}">${u.blocked ? '🔒' : u.role === 'superviseur' ? '👁️' : '👤'} ${u.role}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterMembers(v) { renderAdminMembres(v); }
+
+function getInitials(u) {
+  return ((u.prenom||'')[0]||'') + ((u.nom||'')[0]||'');
+}
+
+function openMemberDetail(userId) {
+  db = getDB();
+  const u = db.users.find(x => x.id === userId);
+  if (!u) return;
+  const bases = db.bases.filter(b => b.userId === userId);
+  const cotPaid = db.cotisations.filter(c => c.userId === userId && c.paid).reduce((s,c)=>s+c.montant,0);
+  const prets = db.prets.filter(p => p.userId === userId && p.statut === 'actif');
+  const totalPret = prets.reduce((s,p)=>s+p.montant,0);
+  const totalRemb = prets.reduce((s,p)=>s+(p.rembourses||[]).reduce((ss,r)=>ss+r.montant,0),0);
+  const resteRemb = prets.reduce((s,p)=>s+(p.totalARembourser-(p.rembourses||[]).reduce((ss,r)=>ss+r.montant,0)),0);
+
+  document.getElementById('modal-membre-detail-content').innerHTML = `
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
+      <div class="profile-avatar-lg" style="width:64px;height:64px;font-size:24px;">${u.photo?`<img src="${u.photo}">`:(getInitials(u)||'?')}</div>
+      <div>
+        <div style="font-family:var(--font-display);font-size:18px;font-weight:700;">${u.prenom} ${u.nom}</div>
+        <div style="font-size:13px; color:var(--text-muted);">${u.contact}</div>
+        <span class="member-badge ${u.blocked?'badge-blocked':u.role==='superviseur'?'badge-super':'badge-membre'}" style="margin-top:4px; display:inline-block;">${u.role}</span>
+      </div>
+    </div>
+    <div class="stat-grid" style="margin-bottom:16px;">
+      <div class="stat-card"><div class="s-label">Total Cotisé</div><div class="s-value gold">${fmtCFA(cotPaid)}</div></div>
+      <div class="stat-card"><div class="s-label">Prêts actifs</div><div class="s-value" style="color:#5DADE2;">${fmtCFA(totalPret)}</div></div>
+      <div class="stat-card"><div class="s-label">Remboursé</div><div class="s-value green">${fmtCFA(totalRemb)}</div></div>
+      <div class="stat-card"><div class="s-label">Reste</div><div class="s-value red">${fmtCFA(resteRemb)}</div></div>
+    </div>
+    <div style="font-size:13px;font-weight:600;margin-bottom:10px;color:var(--text-muted);">BASES</div>
+    ${bases.map(b => {
+      const cotBase = db.cotisations.filter(c=>c.baseId===b.id && c.paid).reduce((s,c)=>s+c.montant,0);
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div>
+          <span style="font-size:13px;">${b.nom}</span>
+          <span style="font-size:11px;color:var(--text-muted);"> • ${fmtCFA(b.montant)}/séance</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="color:var(--gold);font-size:13px;font-weight:600;">${fmtCFA(cotBase)}</span>
+          <button onclick="openEditBase('${b.id}','${userId}')" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;">✏️</button>
+        </div>
+      </div>`;
+    }).join('') || '<p style="color:var(--text-muted);font-size:13px;">Aucune base configurée</p>'}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+      <button class="btn btn-sm" onclick="openCotModal('${userId}'); closeModal('modal-membre-detail');" style="flex:1;">💰 Cotisations</button>
+      <button class="btn btn-sm" onclick="openMembreStartDate('${userId}'); closeModal('modal-membre-detail');" style="flex:1;background:rgba(201,168,76,0.15);border-color:rgba(201,168,76,0.4);color:var(--gold);">📅 Début</button>
+      ${u.blocked ? 
+        `<button class="btn btn-sm btn-secondary" onclick="unblockUser('${userId}')" style="flex:1;">🔓 Débloquer</button>` : 
+        `<button class="btn btn-sm btn-secondary" onclick="openModal('modal-add-pret'); closeModal('modal-membre-detail'); selectPretMembre('${userId}');" style="flex:1;">🏦 Prêt</button>`
+      }
+      <button class="btn btn-sm btn-danger" onclick="deleteUser('${userId}')" style="flex:1;">🗑️</button>
+    </div>
+    <div style="margin-top:12px;">
+      <button class="btn" onclick="openRetraitModal('${userId}'); closeModal('modal-membre-detail');" style="width:100%;background:linear-gradient(135deg,#E67E22,#CA6F1E);border-color:#E67E22;">
+        💸 Effectuer un retrait
+      </button>
+    </div>
+  `;
+  openModal('modal-membre-detail');
+}
+
+function unblockUser(userId) {
+  db = getDB();
+  const u = db.users.find(x=>x.id===userId);
+  if (u) { u.blocked = false; u.failedAttempts = 0; saveDB(db); }
+  closeModal('modal-membre-detail');
+  showToast('Compte débloqué', 'success');
+  renderAdminMembres();
+  renderSettings();
+}
+
+function deleteUser(userId) {
+  db = getDB();
+  const u = db.users.find(x => x.id === userId);
+  if (!u) return;
+  if (!confirm(`Supprimer ${u.prenom} ${u.nom} ? Toutes ses données (cotisations, prêts, retraits) seront définitivement effacées.`)) return;
+  db.users = db.users.filter(u => u.id !== userId);
+  db.bases = db.bases.filter(b => b.userId !== userId);
+  db.cotisations = db.cotisations.filter(c => c.userId !== userId);
+  db.prets = db.prets.filter(p => p.userId !== userId);
+  db.retraits = (db.retraits||[]).filter(r => r.userId !== userId);
+  db.activites = (db.activites||[]).filter(a => a.userId !== userId);
+  saveDB(db);
+  closeModal('modal-membre-detail');
+  showToast('Membre et toutes ses données supprimés', 'success');
+  refreshAdminStats();
+  renderAdminMembres();
+}
+
+function saveMembre() {
+  db = getDB();
+  const prenom = document.getElementById('new-prenom').value.trim();
+  const nom = document.getElementById('new-nom').value.trim();
+  const contact = document.getElementById('new-contact').value.trim();
+  const pin = document.getElementById('new-pin').value.trim();
+  const role = document.getElementById('new-role').value;
+
+  if (!prenom || !nom || !contact) { showToast('Prénom, nom et contact sont obligatoires', 'error'); return; }
+  if (pin && (pin.length !== 4 || !/^\d{4}$/.test(pin))) { showToast('PIN doit être 4 chiffres', 'error'); return; }
+
+  const userId = uid();
+  const newUser = {
+    id: userId, role, prenom, nom, contact: contact.replace(/\s/g,''),
+    pin: pin || '0000', firstLogin: true, blocked: false, failedAttempts: 0,
+    photo: null, dob: null, adresse: null, createdAt: new Date().toISOString()
+  };
+
+  // Parse bases
+  if (role === 'membre') {
+    const rows = document.querySelectorAll('.base-input-row');
+    rows.forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const bNom = inputs[0].value.trim();
+      const bMontant = parseFloat(inputs[1].value) || 0;
+      if (bNom && bMontant > 0) {
+        db.bases.push({ id: uid(), userId, nom: bNom, montant: bMontant, createdAt: new Date().toISOString() });
+      }
+    });
+  }
+
+  db.users.push(newUser);
+  saveDB(db);
+  addActivity('nouveau_membre', `Nouveau ${role}: ${prenom} ${nom}`);
+  closeModal('modal-add-membre');
+  showToast(`${role} ajouté avec succès`, 'success');
+  refreshAdminStats();
+  renderAdminMembres();
+
+  // Reset form
+  document.getElementById('new-prenom').value = '';
+  document.getElementById('new-nom').value = '';
+  document.getElementById('new-contact').value = '';
+  document.getElementById('new-pin').value = '';
+  document.getElementById('new-role').value = 'membre';
+  document.getElementById('new-bases-list').innerHTML = `
+    <div class="base-input-row" style="display:flex;gap:8px;margin-bottom:8px;">
+      <input type="text" class="input-field" placeholder="Nom" style="flex:1;" value="Base A">
+      <input type="number" class="input-field" placeholder="500" style="width:100px;" value="500">
+    </div>`;
+}
+
+let baseCount = 1;
+function addBaseInput() {
+  if (baseCount >= 3) { showToast('Maximum 3 bases par membre', 'error'); return; }
+  baseCount++;
+  const names = ['Base A','Base B','Base C'];
+  const div = document.createElement('div');
+  div.className = 'base-input-row';
+  div.style = 'display:flex;gap:8px;margin-bottom:8px;';
+  div.innerHTML = `<input type="text" class="input-field" placeholder="Nom" style="flex:1;" value="${names[baseCount-1]}">
+    <input type="number" class="input-field" placeholder="1000" style="width:100px;" value="${baseCount===2?1000:1500}">`;
+  document.getElementById('new-bases-list').appendChild(div);
+  if (baseCount >= 3) document.getElementById('add-base-btn').style.display = 'none';
+}
+
+function saveSuperviseur() {
+  db = getDB();
+  const prenom = document.getElementById('sv-prenom').value.trim();
+  const nom = document.getElementById('sv-nom').value.trim();
+  const contact = document.getElementById('sv-contact').value.trim();
+  const pin = document.getElementById('sv-pin').value.trim();
+  if (!prenom || !nom || !contact) { showToast('Champs obligatoires', 'error'); return; }
+  db.users.push({
+    id: uid(), role: 'superviseur', prenom, nom, contact: contact.replace(/\s/g,''),
+    pin: pin || '0000', firstLogin: true, blocked: false, failedAttempts: 0,
+    photo: null, dob: null, adresse: null, createdAt: new Date().toISOString()
+  });
+  saveDB(db);
+  closeModal('modal-add-superviseur');
+  showToast('Superviseur créé', 'success');
+  renderSettings();
+  document.getElementById('sv-prenom').value = '';
+  document.getElementById('sv-nom').value = '';
+  document.getElementById('sv-contact').value = '';
+  document.getElementById('sv-pin').value = '';
+}
+
+// ============================================================
+// COTISATIONS ADMIN
+// ============================================================
+let cotTabActive = 0;
+function switchCotTab(idx) {
+  cotTabActive = idx;
+  document.querySelectorAll('#cot-tabs .tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  renderAdminCotisations();
+}
+
+function renderAdminCotisations() {
+  db = getDB();
+  const container = document.getElementById('cotisations-content');
+  const membres = db.users.filter(u => u.role === 'membre');
+
+  if (cotTabActive === 0) {
+    // Par membre
+    container.innerHTML = membres.map(u => {
+      const bases = db.bases.filter(b => b.userId === u.id);
+      const cotPaid = db.cotisations.filter(c => c.userId === u.id && c.paid).reduce((s,c)=>s+c.montant,0);
+      return `
+      <div class="member-item" onclick="openCotModal('${u.id}')">
+        <div class="member-avatar">${u.photo?`<img src="${u.photo}">`:(getInitials(u)||'?')}</div>
+        <div class="member-info">
+          <div class="member-name">${u.prenom} ${u.nom}</div>
+          <div class="member-meta">${bases.length} base(s) • ${fmtCFA(cotPaid)}</div>
+        </div>
+        <span style="color:var(--gold);font-size:12px;">Gérer →</span>
+      </div>`;
+    }).join('') || '<div class="empty-state"><div class="empty-icon">👥</div><div class="empty-text">Aucun membre</div></div>';
+  } else {
+    // Tout cocher - afficher tous les membres et leurs bases avec calendrier du mois
+    const today = new Date();
+    const days = getCotisationDays(today.getFullYear(), today.getMonth());
+    container.innerHTML = `
+      <div class="alert alert-warn" style="margin-bottom:12px;">
+        <span class="alert-icon">💡</span>
+        <div class="alert-text">Sélectionnez un membre pour cocher ses cotisations du mois en cours</div>
+      </div>
+      ${membres.map(u => {
+        const bases = db.bases.filter(b => b.userId === u.id);
+        return `<div class="member-item" onclick="openCotModal('${u.id}')">
+          <div class="member-avatar">${getInitials(u)||'?'}</div>
+          <div class="member-info">
+            <div class="member-name">${u.prenom} ${u.nom}</div>
+            <div class="member-meta">${bases.map(b=>`${b.nom}:${fmtCFA(b.montant)}`).join(' • ')}</div>
+          </div>
+          <button class="btn btn-sm" style="padding:8px 12px;" onclick="event.stopPropagation();checkAllCot('${u.id}')">Tout ✓</button>
+        </div>`;
+      }).join('')}`;
+  }
+}
+
+function checkAllCot(userId) {
+  db = getDB();
+  const today = new Date();
+  const days = getCotisationDays(today.getFullYear(), today.getMonth());
+  const bases = db.bases.filter(b => b.userId === userId);
+  let added = 0;
+  days.forEach(day => {
+    if (new Date(day) <= today) {
+      bases.forEach(base => {
+        const exists = db.cotisations.find(c => c.userId===userId && c.baseId===base.id && c.date===day);
+        if (!exists) {
+          db.cotisations.push({ id: uid(), userId, baseId: base.id, date: day, montant: base.montant, paid: true });
+          added++;
+        } else if (!exists.paid) {
+          exists.paid = true;
+          added++;
+        }
+      });
+    }
+  });
+  saveDB(db);
+  refreshAdminStats();
+  const u = db.users.find(u=>u.id===userId);
+  addActivity('cotisation', `Cotisations du mois cochées pour ${u?.prenom} ${u?.nom} (${added} jours)`);
+  showToast(`${added} cotisations enregistrées`, 'success');
+}
+
+function getCotisationDays(year, month, userId) {
+  db = getDB();
+  const settings = db.cotSettings || {};
+  // Get member start date
+  let startDate = null;
+  if (userId) {
+    const u = db.users.find(x => x.id === userId);
+    if (u && u.cotStartDate) startDate = new Date(u.cotStartDate);
+  }
+  if (!startDate && settings.globalStartDate) startDate = new Date(settings.globalStartDate);
+
+  // Extra dates added by admin
+  const extraDates = settings.extraDates || [];
+  // Dates removed by admin
+  const removedDates = settings.removedDates || [];
+
+  const days = [];
+  const d = new Date(year, month, 1);
+  while (d.getMonth() === month) {
+    const dow = d.getDay();
+    const iso = d.toISOString().split('T')[0];
+    const isRemoved = removedDates.includes(iso);
+    const isExtra = extraDates.includes(iso);
+    // Only Sundays (dow===0) by default, plus extra dates
+    if (!isRemoved && (dow === 0 || isExtra)) {
+      // Apply start date filter
+      if (!startDate || d >= startDate) {
+        days.push(iso);
+      }
+    }
+    d.setDate(d.getDate()+1);
+  }
+  return days;
+}
+
+function openCotModal(userId) {
+  db = getDB();
+  currentCotMembre = userId;
+  const u = db.users.find(x=>x.id===userId);
+  const bases = db.bases.filter(b=>b.userId===userId);
+  document.getElementById('cot-modal-title').textContent = `Cotisations - ${u?.prenom} ${u?.nom}`;
+  document.getElementById('cot-modal-sub').textContent = 'Sélectionnez la base à gérer';
+
+  if (bases.length === 0) {
+    document.getElementById('cot-modal-content').innerHTML = '<p style="color:var(--text-muted);font-size:13px;">Aucune base configurée pour ce membre</p>';
+    openModal('modal-cotisation-membre');
+    return;
+  }
+
+  // Show base selector + calendar
+  const firstBase = bases[0];
+  currentCotBase = firstBase.id;
+  renderCotCalendar(userId, firstBase.id);
+  openModal('modal-cotisation-membre');
+}
+
+function renderCotCalendar(userId, baseId) {
+  db = getDB();
+  const bases = db.bases.filter(b=>b.userId===userId);
+  const base = db.bases.find(b=>b.id===baseId);
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const cotDays = getCotisationDays(year, month, userId);
+
+  cotChecked = {};
+  cotDays.forEach(day => {
+    const cot = db.cotisations.find(c=>c.userId===userId&&c.baseId===baseId&&c.date===day);
+    cotChecked[day] = cot ? cot.paid : false;
+  });
+
+  const content = document.getElementById('cot-modal-content');
+  content.innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px;">
+      ${bases.map(b=>`<button class="chip ${b.id===baseId?'chip-gold':'chip-green'}" onclick="currentCotBase='${b.id}';renderCotCalendar('${userId}','${b.id}')">${b.nom} - ${fmtCFA(b.montant)}</button>`).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <span style="font-size:14px;font-weight:600;">${new Date(year,month).toLocaleDateString('fr-FR',{month:'long',year:'numeric'})}</span>
+      <button class="btn btn-sm btn-secondary" onclick="checkAllDaysCot('${userId}','${baseId}')">Tout cocher</button>
+    </div>
+    <div id="cot-days-list">
+      ${cotDays.filter(d=>new Date(d)<=today).map(day=>{
+        const paid = cotChecked[day];
+        return `<div class="check-item ${paid?'checked':''}" id="cotcheck-${day}" onclick="toggleCotDay('${day}')">
+          <div class="checkbox"><span class="check-tick">✓</span></div>
+          <div style="flex:1;">
+            <div style="font-size:14px;">${new Date(day).toLocaleDateString('fr-FR',{weekday:'long',day:'2-digit',month:'long'})}</div>
+            <div style="font-size:12px;color:var(--text-muted);">${fmtCFA(base?.montant||0)}</div>
+          </div>
+          ${paid?'<span class="chip chip-gold" style="font-size:11px;">✓ Payé</span>':''}
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="background:var(--deep2);border-radius:12px;padding:12px;margin-top:12px;">
+      <div style="display:flex;justify-content:space-between;">
+        <span style="font-size:13px;color:var(--text-muted);">Jours cochés</span>
+        <span id="cot-count-display" style="font-weight:600;color:var(--gold);">${Object.values(cotChecked).filter(Boolean).length} jours</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;">
+        <span style="font-size:13px;color:var(--text-muted);">Total calculé</span>
+        <span id="cot-total-display" style="font-weight:700;color:var(--gold);">${fmtCFA(Object.values(cotChecked).filter(Boolean).length * (base?.montant||0))}</span>
+      </div>
+    </div>
+  `;
+}
+
+function toggleCotDay(day) {
+  cotChecked[day] = !cotChecked[day];
+  const item = document.getElementById('cotcheck-'+day);
+  item.classList.toggle('checked', cotChecked[day]);
+
+  const db2 = getDB();
+  const base = db2.bases.find(b=>b.id===currentCotBase);
+  const total = Object.values(cotChecked).filter(Boolean).length * (base?.montant||0);
+  const count = Object.values(cotChecked).filter(Boolean).length;
+  document.getElementById('cot-count-display').textContent = count + ' jours';
+  document.getElementById('cot-total-display').textContent = fmtCFA(total);
+}
+
+function checkAllDaysCot(userId, baseId) {
+  Object.keys(cotChecked).forEach(day => { cotChecked[day] = true; });
+  renderCotCalendar(userId, baseId);
+}
+
+function saveCotisations() {
+  db = getDB();
+  const base = db.bases.find(b=>b.id===currentCotBase);
+  let count = 0;
+  Object.entries(cotChecked).forEach(([day, paid]) => {
+    const existing = db.cotisations.find(c=>c.userId===currentCotMembre&&c.baseId===currentCotBase&&c.date===day);
+    if (existing) {
+      existing.paid = paid;
+    } else {
+      db.cotisations.push({ id:uid(), userId:currentCotMembre, baseId:currentCotBase, date:day, montant:base?.montant||0, paid });
+    }
+    if (paid) count++;
+  });
+  saveDB(db);
+  refreshAdminStats();
+  const u = db.users.find(u=>u.id===currentCotMembre);
+  addActivity('cotisation', `Cotisations mises à jour pour ${u?.prenom} ${u?.nom}: ${count} jour(s) payé(s)`);
+  closeModal('modal-cotisation-membre');
+  showToast('Cotisations enregistrées', 'success');
+  renderAdminCotisations();
+}
+
+// ============================================================
+// PRÊTS ADMIN
+// ============================================================
+function renderAdminPrets() {
+  db = getDB();
+  const container = document.getElementById('admin-prets-list');
+  if (db.prets.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏦</div><div class="empty-text">Aucun prêt enregistré</div></div>';
+    return;
+  }
+  container.innerHTML = db.prets.map(p => {
+    const u = db.users.find(x=>x.id===p.userId);
+    const remb = (p.rembourses||[]).reduce((s,r)=>s+r.montant,0);
+    const reste = p.totalARembourser - remb;
+    const pct = Math.min(100, Math.round(remb/p.totalARembourser*100));
+    const isLate = p.statut==='actif' && new Date(p.dateFin) < new Date();
+    return `
+    <div class="loan-card" style="${isLate?'border-color:rgba(231,76,60,0.4);':''}">
+      <div class="loan-header">
+        <div>
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:2px;">${u?.prenom} ${u?.nom}</div>
+          <div class="loan-amount">${fmtCFA(p.montant)}</div>
+        </div>
+        <span class="chip ${p.statut==='actif'?(isLate?'chip-red':'chip-gold'):'chip-green'}">${p.statut==='actif'?(isLate?'⚠️ En retard':'En cours'):'✅ Soldé'}</span>
+      </div>
+      <div class="info-row"><span class="info-label">Total à rembourser</span><span class="info-value">${fmtCFA(p.totalARembourser)}</span></div>
+      <div class="info-row"><span class="info-label">Remboursé</span><span class="info-value" style="color:var(--success);">${fmtCFA(remb)}</span></div>
+      <div class="info-row"><span class="info-label">Reste</span><span class="info-value" style="color:var(--danger);">${fmtCFA(reste)}</span></div>
+      <div class="info-row"><span class="info-label">Échéance</span><span class="info-value ${isLate?'':''}"><span style="color:${isLate?'var(--danger)':'var(--text-muted)'}">${fmtDate(p.dateFin)}</span></span></div>
+      <div class="loan-progress"><div class="loan-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;text-align:right;">${pct}% remboursé</div>
+      ${p.statut==='actif' ? `<button class="btn btn-sm" style="margin-top:12px;" onclick="openRemboursement('${p.id}')">💰 Enregistrer remboursement</button>` : ''}
+    </div>`;
+  }).join('');
+
+  // Update select in add-pret modal
+  populatePretMembreSelect();
+}
+
+function populatePretMembreSelect() {
+  db = getDB();
+  const sel = document.getElementById('pret-membre-select');
+  const membres = db.users.filter(u=>u.role==='membre'&&!u.blocked);
+  sel.innerHTML = membres.map(u=>`<option value="${u.id}">${u.prenom} ${u.nom}</option>`).join('');
+}
+
+function selectPretMembre(userId) {
+  const sel = document.getElementById('pret-membre-select');
+  if (sel) sel.value = userId;
+}
+
+function savePret() {
+  db = getDB();
+  const userId = document.getElementById('pret-membre-select').value;
+  const montant = parseFloat(document.getElementById('pret-montant').value);
+  const taux = parseFloat(document.getElementById('pret-taux').value) || 0;
+  const dateDebut = document.getElementById('pret-date-debut').value;
+  const dateFin = document.getElementById('pret-date-fin').value;
+
+  if (!userId || !montant || !dateDebut || !dateFin) { showToast('Remplissez tous les champs', 'error'); return; }
+  if (montant <= 0) { showToast('Montant invalide', 'error'); return; }
+
+  const interet = 0;
+  const total = montant; // Aucun intérêt appliqué
+
+  db.prets.push({
+    id: uid(), userId, montant, taux, interet, totalARembourser: total,
+    dateDebut, dateFin, rembourses: [], statut: 'actif', createdAt: new Date().toISOString()
+  });
+  saveDB(db);
+  const u = db.users.find(u=>u.id===userId);
+  addActivity('pret', `Prêt de ${fmtCFA(montant)} accordé à ${u?.prenom} ${u?.nom}`);
+  closeModal('modal-add-pret');
+  showToast('Prêt enregistré', 'success');
+  refreshAdminStats();
+  renderAdminPrets();
+  document.getElementById('pret-montant').value = '';
+  document.getElementById('pret-date-debut').value = '';
+  document.getElementById('pret-date-fin').value = '';
+}
+
+// Live preview for prêt
+document.getElementById('pret-montant').addEventListener('input', updatePretPreview);
+document.getElementById('pret-taux').addEventListener('input', updatePretPreview);
+function updatePretPreview() {
+  const m = parseFloat(document.getElementById('pret-montant').value) || 0;
+  document.getElementById('prev-principal').textContent = fmtCFA(m);
+  document.getElementById('prev-interet').textContent = fmtCFA(0);
+  document.getElementById('prev-total').textContent = fmtCFA(m);
+}
+
+function openRemboursement(pretId) {
+  db = getDB();
+  const pret = db.prets.find(p=>p.id===pretId);
+  const u = db.users.find(x=>x.id===pret?.userId);
+  const remb = (pret.rembourses||[]).reduce((s,r)=>s+r.montant,0);
+  const reste = pret.totalARembourser - remb;
+  currentPretId = pretId;
+  document.getElementById('remb-pret-id').value = pretId;
+  document.getElementById('remb-modal-content').innerHTML = `
+    <div class="card" style="background:var(--deep2);margin-bottom:16px;">
+      <div class="info-row"><span class="info-label">Membre</span><span class="info-value">${u?.prenom} ${u?.nom}</span></div>
+      <div class="info-row"><span class="info-label">Total prêt</span><span class="info-value">${fmtCFA(pret.totalARembourser)}</span></div>
+      <div class="info-row"><span class="info-label">Déjà remboursé</span><span class="info-value" style="color:var(--success);">${fmtCFA(remb)}</span></div>
+      <div class="info-row" style="border:none;"><span class="info-label" style="font-weight:600;">Reste à payer</span><span class="info-value" style="color:var(--danger);font-weight:700;">${fmtCFA(reste)}</span></div>
+    </div>
+    <div class="input-group"><label>Montant à rembourser (FCFA)</label><input type="number" class="input-field" id="remb-montant" placeholder="${Math.round(reste)}" max="${reste}"></div>
+    <div class="input-group"><label>Date</label><input type="date" class="input-field" id="remb-date" value="${new Date().toISOString().split('T')[0]}"></div>
+  `;
+  openModal('modal-remboursement');
+}
+
+function saveRemboursement() {
+  db = getDB();
+  const pretId = document.getElementById('remb-pret-id').value;
+  const montant = parseFloat(document.getElementById('remb-montant').value);
+  const date = document.getElementById('remb-date').value;
+  if (!montant || !date) { showToast('Remplissez tous les champs', 'error'); return; }
+  const pret = db.prets.find(p=>p.id===pretId);
+  if (!pret) return;
+  const remb = (pret.rembourses||[]).reduce((s,r)=>s+r.montant,0);
+  const reste = pret.totalARembourser - remb;
+  if (montant > reste) { showToast(`Montant dépasse le reste (${fmtCFA(reste)})`, 'error'); return; }
+  pret.rembourses.push({ id:uid(), montant, date });
+  const newRemb = pret.rembourses.reduce((s,r)=>s+r.montant,0);
+  if (newRemb >= pret.totalARembourser) pret.statut = 'soldé';
+  saveDB(db);
+  const u = db.users.find(u=>u.id===pret.userId);
+  addActivity('remboursement', `Remboursement de ${fmtCFA(montant)} de ${u?.prenom} ${u?.nom}`);
+  closeModal('modal-remboursement');
+  showToast('Remboursement enregistré', 'success');
+  refreshAdminStats();
+  renderAdminPrets();
+}
+
+// ============================================================
+// SETTINGS
+// ============================================================
+function renderSettings() {
+  db = getDB();
+  const admin = db.users.find(u=>u.role==='admin');
+  if (admin) {
+    const el = document.getElementById('admin-profile-name');
+    if (el) el.textContent = admin.prenom + ' ' + admin.nom;
+    const av = document.getElementById('admin-profile-avatar');
+    if (av) { av.innerHTML = admin.photo ? `<img src="${admin.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:24px;">` : getInitials(admin); }
+  }
+
+  const svList = document.getElementById('superviseurs-list-settings');
+  const superviseurs = db.users.filter(u=>u.role==='superviseur');
+  if (svList) {
+    svList.innerHTML = superviseurs.map(s=>`
+      <div class="member-item">
+        <div class="member-avatar" style="width:38px;height:38px;font-size:14px;">${getInitials(s)}</div>
+        <div class="member-info"><div class="member-name">${s.prenom} ${s.nom}</div><div class="member-meta">${s.contact}</div></div>
+        <button onclick="deleteUser('${s.id}')" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:18px;">🗑️</button>
+      </div>`).join('') || '<p style="color:var(--text-muted);font-size:13px;">Aucun superviseur</p>';
+  }
+
+  const blocked = db.users.filter(u=>u.blocked);
+  const blockedList = document.getElementById('blocked-accounts-list');
+  if (blockedList) {
+    blockedList.innerHTML = blocked.length === 0 ?
+      '<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Aucun compte bloqué</div></div>' :
+      blocked.map(u=>`
+        <div class="member-item">
+          <div class="member-avatar">${getInitials(u)}</div>
+          <div class="member-info"><div class="member-name">${u.prenom} ${u.nom}</div><div class="member-meta">${u.contact}</div></div>
+          <button class="btn btn-sm" onclick="unblockUser('${u.id}')">🔓 Débloquer</button>
+        </div>`).join('');
+  }
+}
+
+// ============================================================
+// EDIT PROFILE
+// ============================================================
+function openModal_editProfile() {
+  db = getDB();
+  const u = db.users.find(x=>x.id===currentUser.id);
+  document.getElementById('edit-prenom').value = u?.prenom || '';
+  document.getElementById('edit-nom').value = u?.nom || '';
+  document.getElementById('edit-dob').value = u?.dob || '';
+  document.getElementById('edit-adresse').value = u?.adresse || '';
+  openModal('modal-edit-profile');
+}
+
+function saveProfile() {
+  db = getDB();
+  const prenom = document.getElementById('edit-prenom').value.trim();
+  const nom = document.getElementById('edit-nom').value.trim();
+  if (!prenom || !nom) { showToast('Prénom et nom obligatoires', 'error'); return; }
+  const u = db.users.find(x=>x.id===currentUser.id);
+  u.prenom = prenom;
+  u.nom = nom;
+  u.dob = document.getElementById('edit-dob').value;
+  u.adresse = document.getElementById('edit-adresse').value.trim();
+  saveDB(db);
+  currentUser = u;
+  closeModal('modal-edit-profile');
+  showToast('Profil mis à jour', 'success');
+  if (u.role === 'admin') renderSettings();
+  else { refreshMembreHome(); renderMembreProfil(); }
+}
+
+// Override openModal for edit-profile to pre-fill
+const originalOpenModal = window.openModal;
+document.addEventListener('click', function(e) {
+  if (e.target.closest('[onclick*="modal-edit-profile"]')) {
+    setTimeout(openModal_editProfile, 0);
+  }
+});
+
+// ============================================================
+// SUPERVISEUR
+// ============================================================
+function refreshSuperviseurStats() {
+  db = getDB();
+  const totalCotise = db.cotisations.filter(c=>c.paid).reduce((s,c)=>s+c.montant,0);
+  const totalPrets = db.prets.reduce((s,p)=>s+p.montant,0);
+  document.getElementById('sv-stat-cotise').textContent = fmtCFA(totalCotise).replace(' FCFA','');
+  document.getElementById('sv-stat-prets').textContent = fmtCFA(totalPrets).replace(' FCFA','');
+}
+
+function renderSvMembresList() {
+  db = getDB();
+  const container = document.getElementById('sv-membres-list');
+  const users = db.users; // All users including admin
+  container.innerHTML = users.map(u => {
+    const cotPaid = db.cotisations.filter(c=>c.userId===u.id&&c.paid).reduce((s,c)=>s+c.montant,0);
+    const prets = db.prets.filter(p=>p.userId===u.id&&p.statut==='actif');
+    const resteRemb = prets.reduce((s,p)=>s+(p.totalARembourser-(p.rembourses||[]).reduce((ss,r)=>ss+r.montant,0)),0);
+    return `
+    <div class="member-item">
+      <div class="member-avatar">${u.photo?`<img src="${u.photo}">`:(getInitials(u)||'?')}</div>
+      <div class="member-info">
+        <div class="member-name">${u.prenom} ${u.nom}</div>
+        <div class="member-meta">Cotisé: ${fmtCFA(cotPaid)} • Prêt restant: ${fmtCFA(resteRemb)}</div>
+      </div>
+      <span class="member-badge ${u.role==='admin'?'badge-admin':u.role==='superviseur'?'badge-super':'badge-membre'}">${u.role}</span>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// MEMBRE HOME
+// ============================================================
+function refreshMembreHome() {
+  db = getDB();
+  const u = db.users.find(x=>x.id===currentUser.id);
+  if (!u) return;
+
+  const today = new Date();
+  document.getElementById('membre-prenom').textContent = u.prenom;
+  document.getElementById('membre-date-today').textContent = today.toLocaleDateString('fr-FR', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+
+  const bases = db.bases.filter(b=>b.userId===u.id);
+  document.getElementById('membre-bases-count').textContent = bases.length + ' base(s)';
+
+  const totalCotise = db.cotisations.filter(c=>c.userId===u.id&&c.paid).reduce((s,c)=>s+c.montant,0);
+  updateBalanceDisplay(totalCotise);
+
+  // Bases list
+  const basesContainer = document.getElementById('membre-bases-list');
+  basesContainer.innerHTML = bases.map(b => {
+    const cotBase = db.cotisations.filter(c=>c.baseId===b.id&&c.paid).reduce((s,c)=>s+c.montant,0);
+    const cotMonth = db.cotisations.filter(c=>c.baseId===b.id&&c.paid&&new Date(c.date).getMonth()===today.getMonth()).reduce((s,c)=>s+c.montant,0);
+    const days = getCotisationDays(today.getFullYear(), today.getMonth());
+    const paidDays = days.filter(d=>db.cotisations.find(c=>c.baseId===b.id&&c.date===d&&c.paid)).length;
+    const totalDays = days.filter(d=>new Date(d)<=today).length;
+    const pct = totalDays > 0 ? Math.round(paidDays/totalDays*100) : 0;
+    return `
+    <div class="base-item" onclick="showMemberTab('calendrier')">
+      <div class="base-header">
+        <div>
+          <div class="base-name">${b.nom}</div>
+          <div style="font-size:12px;color:var(--text-muted);">${fmtCFA(b.montant)}/séance • ${paidDays}/${totalDays} ce mois</div>
+        </div>
+        <div class="base-amount">${balanceVisible ? fmtCFA(cotBase) : '•••'}</div>
+      </div>
+      <div class="base-progress"><div class="base-progress-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('') || '<div class="empty-state" style="padding:20px;"><div class="empty-text">Aucune base configurée</div></div>';
+
+  // Active loan
+  const activePrets = db.prets.filter(p=>p.userId===u.id&&p.statut==='actif');
+  const pretSection = document.getElementById('membre-pret-section');
+  if (activePrets.length > 0) {
+    pretSection.style.display = 'block';
+    const pret = activePrets[0];
+    const remb = (pret.rembourses||[]).reduce((s,r)=>s+r.montant,0);
+    const reste = pret.totalARembourser - remb;
+    const pct = Math.min(100, Math.round(remb/pret.totalARembourser*100));
+    const isLate = new Date(pret.dateFin) < today;
+    document.getElementById('membre-pret-card').innerHTML = `
+      <div class="loan-header">
+        <div><div style="font-size:12px;color:var(--text-muted);">Prêt en cours</div><div class="loan-amount">${balanceVisible?fmtCFA(pret.montant):'•••'}</div></div>
+        <span class="chip ${isLate?'chip-red':'chip-gold'}">${isLate?'⚠️ En retard':'En cours'}</span>
+      </div>
+      <div class="info-row"><span class="info-label">Reste à rembourser</span><span class="info-value" style="color:var(--danger);">${balanceVisible?fmtCFA(reste):'•••'}</span></div>
+      <div class="info-row"><span class="info-label">Échéance</span><span class="info-value" style="color:${isLate?'var(--danger)':'inherit'};">${fmtDate(pret.dateFin)}</span></div>
+      <div class="loan-progress"><div class="loan-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;text-align:right;">${pct}% remboursé</div>
+    `;
+  } else {
+    pretSection.style.display = 'none';
+  }
+
+  // Contacts
+  renderContacts();
+}
+
+function renderContacts() {
+  db = getDB();
+  const admin = db.users.find(u=>u.role==='admin');
+  const superviseurs = db.users.filter(u=>u.role==='superviseur');
+  const all = [admin, ...superviseurs].filter(Boolean);
+  document.getElementById('contacts-list').innerHTML = all.map(u=>`
+    <div class="member-item" style="cursor:default;">
+      <div class="member-avatar">${u.photo?`<img src="${u.photo}">`:(getInitials(u)||'?')}</div>
+      <div class="member-info">
+        <div class="member-name">${u.prenom} ${u.nom}</div>
+        <div class="member-meta">${u.contact}</div>
+      </div>
+      <span class="member-badge ${u.role==='admin'?'badge-admin':'badge-super'}">${u.role==='admin'?'👑':'👁️'}</span>
+    </div>`).join('');
+}
+
+function updateBalanceDisplay(totalCotise) {
+  const display = balanceVisible ? (totalCotise !== undefined ? fmtCFA(totalCotise).replace(' FCFA','') : '•••') : '•••••';
+  document.getElementById('membre-total-cotise').textContent = display;
+  const toggleBtn = document.getElementById('balance-toggle');
+  if (toggleBtn) toggleBtn.className = 'toggle-btn' + (balanceVisible ? ' on' : '');
+}
+
+function toggleBalance() {
+  balanceVisible = !balanceVisible;
+  refreshMembreHome();
+}
+
+// ============================================================
+// MEMBRE NAVIGATION
+// ============================================================
+function switchMembreNav(idx) {
+  const tabs = ['home','calendrier','prets','profile'];
+  showMemberTab(tabs[idx]);
+  document.querySelectorAll('#screen-membre-home .bottom-nav .nav-item').forEach((item,i) => item.classList.toggle('active', i===idx));
+}
+
+function showMemberTab(tab) {
+  const screens = ['membre-home','membre-calendrier','membre-prets','membre-profil'];
+  screens.forEach(s => document.getElementById('screen-'+s).classList.remove('active'));
+  const screenMap = {home:'membre-home', calendrier:'membre-calendrier', prets:'membre-prets', profile:'membre-profil'};
+  const el = document.getElementById('screen-'+screenMap[tab]);
+  if (el) el.classList.add('active');
+
+  if (tab === 'calendrier') renderMembreCalendrier();
+  if (tab === 'prets') renderMembrePrets();
+  if (tab === 'profile') renderMembreProfil();
+}
+
+// ============================================================
+// MEMBRE CALENDRIER
+// ============================================================
+function renderMembreCalendrier() {
+  db = getDB();
+  const bases = db.bases.filter(b=>b.userId===currentUser.id);
+
+  // Base selector chips
+  const sel = document.getElementById('membre-cal-bases-select');
+  if (bases.length === 0) {
+    sel.innerHTML = '';
+    document.getElementById('membre-calendar-wrap').innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div><div class="empty-text">Aucune base configurée</div></div>';
+    return;
+  }
+  if (!currentCalBase) currentCalBase = bases[0].id;
+  sel.innerHTML = bases.map(b=>`<button class="chip ${b.id===currentCalBase?'chip-gold':'chip-green'}" style="white-space:nowrap;" onclick="currentCalBase='${b.id}';renderCalendar();">${b.nom}</button>`).join('');
+  renderCalendar();
+}
+
+function renderCalendar() {
+  db = getDB();
+  const wrap = document.getElementById('membre-calendar-wrap');
+  const base = db.bases.find(b=>b.id===currentCalBase);
+  if (!base) return;
+
+  const year = currentCalDate.getFullYear();
+  const month = currentCalDate.getMonth();
+  const today = new Date();
+  const firstDay = new Date(year, month, 1).getDay(); // 0=dim
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const cotDays = getCotisationDays(year, month, userId);
+  const prets = db.prets.filter(p=>p.userId===currentUser.id);
+
+  const todayStr = today.toISOString().split('T')[0];
+  const monthNames = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  const dayLabels = ['D','L','M','M','J','V','S'];
+
+  let html = `
+    <div class="card">
+      <div class="cal-header">
+        <div class="cal-nav" onclick="prevMonth()">‹</div>
+        <div class="cal-month">${monthNames[month]} ${year}</div>
+        <div class="cal-nav" onclick="nextMonth()">›</div>
+      </div>
+      <div class="cal-days-header">
+        ${dayLabels.map(d=>`<div class="cal-day-label">${d}</div>`).join('')}
+      </div>
+      <div class="cal-grid">
+        ${Array(firstDay).fill('<div class="cal-cell empty"></div>').join('')}
+        ${Array.from({length:daysInMonth},(_,i)=>{
+          const d = i+1;
+          const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          const isCotDay = cotDays.includes(dateStr);
+          const isPaid = isCotDay && db.cotisations.find(c=>c.baseId===currentCalBase&&c.date===dateStr&&c.paid);
+          const isPret = prets.find(p=>p.dateDebut===dateStr);
+          const isRemb = prets.find(p=>p.rembourses&&p.rembourses.find(r=>r.date===dateStr));
+          const isToday = dateStr === todayStr;
+          const isFuture = new Date(dateStr) > today;
+          let cls = 'cal-cell';
+          if (!isCotDay && !isPret && !isRemb) cls += ' inactive';
+          if (isPaid) cls += ' paid';
+          else if (isCotDay && !isFuture) cls += ' cotisation';
+          if (isPret) cls += ' pret';
+          if (isRemb) cls += ' remb';
+          if (isToday) cls += ' today';
+          return `<div class="${cls}" title="${dateStr}">${d}</div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  wrap.innerHTML = html;
+}
+
+function prevMonth() { currentCalDate.setMonth(currentCalDate.getMonth()-1); renderCalendar(); }
+function nextMonth() { currentCalDate.setMonth(currentCalDate.getMonth()+1); renderCalendar(); }
+
+// ============================================================
+// MEMBRE PRÊTS
+// ============================================================
+function renderMembrePrets() {
+  db = getDB();
+  const container = document.getElementById('membre-prets-list');
+  const prets = db.prets.filter(p=>p.userId===currentUser.id);
+
+  if (prets.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🏦</div><div class="empty-text">Aucun prêt enregistré</div></div>';
+    return;
+  }
+
+  container.innerHTML = prets.map(p => {
+    const remb = (p.rembourses||[]).reduce((s,r)=>s+r.montant,0);
+    const reste = p.totalARembourser - remb;
+    const pct = Math.min(100, Math.round(remb/p.totalARembourser*100));
+    const isLate = p.statut==='actif' && new Date(p.dateFin) < new Date();
+    return `
+    <div class="loan-card">
+      <div class="loan-header">
+        <div><div style="font-size:12px;color:var(--text-muted);">Montant emprunté</div><div class="loan-amount">${balanceVisible?fmtCFA(p.montant):'•••'}</div></div>
+        <span class="chip ${p.statut==='actif'?(isLate?'chip-red':'chip-gold'):'chip-green'}">${p.statut==='actif'?(isLate?'⚠️ En retard':'En cours'):'✅ Soldé'}</span>
+      </div>
+      <div class="info-row"><span class="info-label">Total à rembourser</span><span class="info-value">${balanceVisible?fmtCFA(p.totalARembourser):'•••'}</span></div>
+      <div class="info-row"><span class="info-label">Remboursé</span><span class="info-value" style="color:var(--success);">${balanceVisible?fmtCFA(remb):'•••'}</span></div>
+      <div class="info-row"><span class="info-label">Reste</span><span class="info-value" style="color:var(--danger);">${balanceVisible?fmtCFA(reste):'•••'}</span></div>
+      <div class="info-row"><span class="info-label">Échéance</span><span class="info-value" style="color:${isLate?'var(--danger)':'inherit'};">${fmtDate(p.dateFin)}</span></div>
+      <div class="loan-progress"><div class="loan-fill" style="width:${pct}%"></div></div>
+      <div style="font-size:11px;color:var(--text-muted);margin-top:4px;text-align:right;">${pct}% remboursé</div>
+      ${p.rembourses && p.rembourses.length > 0 ? `
+        <div style="margin-top:12px;">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">Historique remboursements</div>
+          ${p.rembourses.map(r=>`<div class="info-row" style="padding:6px 0;"><span class="info-label">${fmtDateShort(r.date)}</span><span class="info-value" style="color:var(--success);">+${balanceVisible?fmtCFA(r.montant):'•••'}</span></div>`).join('')}
+        </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// MEMBRE PROFIL
+// ============================================================
+function renderMembreProfil() {
+  db = getDB();
+  const u = db.users.find(x=>x.id===currentUser.id);
+  if (!u) return;
+
+  const avatar = document.getElementById('membre-profil-avatar');
+  if (u.photo) avatar.innerHTML = `<img src="${u.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"><div class="avatar-edit" onclick="changeProfilePhoto()">📷</div>`;
+  else { avatar.innerHTML = (getInitials(u)||'M') + '<div class="avatar-edit" onclick="changeProfilePhoto()">📷</div>'; }
+
+  document.getElementById('membre-profil-nom').textContent = u.prenom + ' ' + u.nom;
+  document.getElementById('membre-profil-role').textContent = u.role === 'superviseur' ? '👁️ Superviseur' : '👤 Membre';
+
+  const infos = document.getElementById('membre-profil-infos');
+  infos.innerHTML = `
+    <div class="info-row"><span class="info-label">Contact</span><span class="info-value">${u.contact}</span></div>
+    <div class="info-row"><span class="info-label">Date de naissance</span><span class="info-value">${u.dob ? fmtDate(u.dob) : 'Non renseignée'}</span></div>
+    <div class="info-row"><span class="info-label">Adresse</span><span class="info-value">${u.adresse || 'Non renseignée'}</span></div>
+    <div class="info-row"><span class="info-label">Membre depuis</span><span class="info-value">${fmtDate(u.createdAt)}</span></div>
+  `;
+}
+
+function changeProfilePhoto() {
+  document.getElementById('photo-input').click();
+}
+
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    db = getDB();
+    const u = db.users.find(x=>x.id===currentUser.id);
+    u.photo = ev.target.result;
+    saveDB(db);
+    currentUser = u;
+    renderMembreProfil();
+    showToast('Photo mise à jour', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+// Set today's date for prêt
+document.getElementById('pret-date-debut').value = new Date().toISOString().split('T')[0];
+
+// Pre-fill edit profile when opening
+document.getElementById('modal-edit-profile').addEventListener('transitionend', () => {
+  if (document.getElementById('modal-edit-profile').classList.contains('open') && currentUser) {
+    db = getDB();
+    const u = db.users.find(x=>x.id===currentUser.id);
+    document.getElementById('edit-prenom').value = u?.prenom || '';
+    document.getElementById('edit-nom').value = u?.nom || '';
+    document.getElementById('edit-dob').value = u?.dob || '';
+    document.getElementById('edit-adresse').value = u?.adresse || '';
+  }
+});
+
+// Init toggle
+document.getElementById('balance-toggle').className = 'toggle-btn on';
+document.getElementById('balance-toggle').innerHTML = '<div class="toggle-knob"></div>';
+document.querySelectorAll('.toggle-btn').forEach(b => {
+  if (!b.innerHTML.includes('toggle-knob')) b.innerHTML = '<div class="toggle-knob"></div>';
+});
+
+console.log('🤝 ANDE DOLEL SA DJEUKEUR - Initialisé');
+
+// ===== SERVICE WORKER (PWA) =====
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'adsd-v1';
+    self.addEventListener('install', e => {
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e => {
+      e.waitUntil(clients.claim());
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(
+        caches.match(e.request).then(r => r || fetch(e.request).catch(() => new Response('', {status: 408})))
+      );
+    });
+  `;
+  const blob = new Blob([swCode], {type: 'application/javascript'});
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl, {scope: '/'}).then(() => {
+    console.log('✅ Service Worker enregistré');
+  }).catch(e => {
+    // SW non critique, continuer sans
+    console.log('SW non disponible (normal en local):', e.message);
+  });
+}
+
+// ===== INSTALL PROMPT (Android) =====
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Show install hint on QR fab
+  const fab = document.getElementById('qr-fab');
+  if (fab) {
+    fab.setAttribute('title', 'Installer l\'application');
+    fab.style.animation = 'pulse-gold 2s infinite';
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredPrompt = null;
+  console.log('✅ Application installée');
+});
+console.log('👑 Admin: contact=784257605, PIN=2424');
+
+
+// ============================================================
+// RETRAITS
+// ============================================================
+let currentRetraitUserId = null;
+
+function calcSoldeDisponible(userId) {
+  db = getDB();
+  const cotPaid = db.cotisations.filter(c => c.userId === userId && c.paid).reduce((s,c) => s+c.montant, 0);
+  const dejaRetire = (db.retraits || []).filter(r => r.userId === userId).reduce((s,r) => s+r.montant, 0);
+  const pretsActifs = db.prets.filter(p => p.userId === userId && p.statut === 'actif');
+  const resteRemb = pretsActifs.reduce((s,p) => s + (p.totalARembourser - (p.rembourses||[]).reduce((ss,r)=>ss+r.montant, 0)), 0);
+  const soldeNet = cotPaid - dejaRetire - resteRemb;
+  return { cotPaid, dejaRetire, resteRemb, soldeNet };
+}
+
+function openRetraitModal(userId) {
+  currentRetraitUserId = userId;
+  db = getDB();
+  const u = db.users.find(x => x.id === userId);
+  if (!u) return;
+
+  const { cotPaid, dejaRetire, resteRemb, soldeNet } = calcSoldeDisponible(userId);
+  const retraits = (db.retraits || []).filter(r => r.userId === userId).sort((a,b) => new Date(b.date)-new Date(a.date));
+
+  document.getElementById('retrait-montant').value = '';
+  document.getElementById('retrait-note').value = '';
+  document.getElementById('retrait-calc').style.display = 'none';
+  document.getElementById('retrait-error').style.display = 'none';
+
+  document.getElementById('retrait-recap').innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;">
+      ${u.prenom} ${u.nom}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:${retraits.length?'12px':'0'};">
+      <div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;">
+        <div style="font-size:10px;color:var(--text-muted);">Total cotisé</div>
+        <div style="font-size:13px;font-weight:700;color:var(--gold);">${fmtCFA(cotPaid)}</div>
+      </div>
+      <div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;">
+        <div style="font-size:10px;color:var(--text-muted);">Déjà retiré</div>
+        <div style="font-size:13px;font-weight:700;color:#E67E22;">${fmtCFA(dejaRetire)}</div>
+      </div>
+      <div style="text-align:center;background:rgba(0,0,0,0.2);border-radius:8px;padding:8px;">
+        <div style="font-size:10px;color:var(--text-muted);">Prêts restants</div>
+        <div style="font-size:13px;font-weight:700;color:var(--danger);">${fmtCFA(resteRemb)}</div>
+      </div>
+      <div style="text-align:center;background:rgba(46,204,113,0.15);border:1px solid rgba(46,204,113,0.3);border-radius:8px;padding:8px;">
+        <div style="font-size:10px;color:var(--text-muted);">Solde disponible</div>
+        <div style="font-size:13px;font-weight:700;color:${soldeNet>0?'var(--success)':'var(--danger)'};">${fmtCFA(Math.max(0,soldeNet))}</div>
+      </div>
+    </div>
+    ${retraits.length ? `
+      <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;">HISTORIQUE DES RETRAITS</div>
+      <div style="max-height:100px;overflow-y:auto;">
+        ${retraits.map(r => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px;">
+            <span style="color:var(--text-muted);">${fmtDateShort(r.date)}${r.note ? ' • '+r.note : ''}</span>
+            <span style="color:#E67E22;font-weight:600;">-${fmtCFA(r.montant)}</span>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+
+  openModal('modal-retrait');
+}
+
+function updateRetraitCalc() {
+  const montant = parseFloat(document.getElementById('retrait-montant').value) || 0;
+  const calcDiv = document.getElementById('retrait-calc');
+  const errDiv = document.getElementById('retrait-error');
+  if (!currentRetraitUserId || montant <= 0) { calcDiv.style.display='none'; return; }
+
+  const { cotPaid, dejaRetire, resteRemb, soldeNet } = calcSoldeDisponible(currentRetraitUserId);
+  const soldeApres = soldeNet - montant;
+
+  calcDiv.style.display = 'block';
+  errDiv.style.display = 'none';
+
+  if (montant > soldeNet) {
+    calcDiv.innerHTML = `<span style="color:var(--danger);">⚠️ Montant supérieur au solde disponible (${fmtCFA(Math.max(0,soldeNet))})</span>`;
+  } else {
+    calcDiv.innerHTML = `
+      <div style="color:var(--text-muted);margin-bottom:4px;">Après retrait :</div>
+      <div style="display:flex;justify-content:space-between;">
+        <span>Solde restant :</span>
+        <span style="font-weight:700;color:${soldeApres>=0?'var(--success)':'var(--danger)'};">${fmtCFA(Math.max(0,soldeApres))}</span>
+      </div>
+    `;
+  }
+}
+
+function saveRetrait() {
+  if (!currentRetraitUserId) return;
+  db = getDB();
+
+  const montant = parseFloat(document.getElementById('retrait-montant').value);
+  const note = document.getElementById('retrait-note').value.trim();
+  const errDiv = document.getElementById('retrait-error');
+
+  if (!montant || montant <= 0) {
+    errDiv.textContent = 'Veuillez entrer un montant valide.';
+    errDiv.style.display = 'block'; return;
+  }
+
+  const { soldeNet } = calcSoldeDisponible(currentRetraitUserId);
+  if (montant > soldeNet) {
+    errDiv.textContent = `Montant supérieur au solde disponible (${fmtCFA(Math.max(0,soldeNet))}).`;
+    errDiv.style.display = 'block'; return;
+  }
+
+  if (!db.retraits) db.retraits = [];
+  const u = db.users.find(x => x.id === currentRetraitUserId);
+
+  db.retraits.push({
+    id: uid(),
+    userId: currentRetraitUserId,
+    montant: montant,
+    date: new Date().toISOString(),
+    note: note,
+    adminId: currentUser ? currentUser.id : 'admin_001'
+  });
+
+  db.activites.unshift({
+    id: uid(),
+    type: 'retrait',
+    description: `Retrait de ${fmtCFA(montant)} pour ${u ? u.prenom+' '+u.nom : ''}${note?' ('+note+')':''}`,
+    date: new Date().toISOString(),
+    userId: currentRetraitUserId
+  });
+
+  saveDB(db);
+  closeModal('modal-retrait');
+  showToast('Retrait effectué avec succès', 'success');
+  refreshAdminStats();
+  renderAdminMembres();
+}
+
+
+// ============================================================
+// EDIT BASE MONTANT
+// ============================================================
+let currentEditBaseId = null;
+let currentEditBaseUserId = null;
+
+function openEditBase(baseId, userId) {
+  db = getDB();
+  currentEditBaseId = baseId;
+  currentEditBaseUserId = userId;
+  const base = db.bases.find(b => b.id === baseId);
+  if (!base) return;
+  const u = db.users.find(x => x.id === userId);
+  document.getElementById('edit-base-info').textContent = `Membre : ${u ? u.prenom+' '+u.nom : ''} — Base actuelle : ${base.nom} (${fmtCFA(base.montant)}/séance)`;
+  document.getElementById('edit-base-montant').value = base.montant;
+  document.getElementById('edit-base-nom').value = base.nom;
+  openModal('modal-edit-base');
+}
+
+function saveEditBase() {
+  if (!currentEditBaseId) return;
+  db = getDB();
+  const base = db.bases.find(b => b.id === currentEditBaseId);
+  if (!base) return;
+  const montant = parseFloat(document.getElementById('edit-base-montant').value);
+  const nom = document.getElementById('edit-base-nom').value.trim();
+  if (!montant || montant <= 0) { showToast('Montant invalide', 'error'); return; }
+  base.montant = montant;
+  if (nom) base.nom = nom;
+  saveDB(db);
+  closeModal('modal-edit-base');
+  showToast('Base mise à jour', 'success');
+  openMemberDetail(currentEditBaseUserId);
+}
+
+// ============================================================
+// COTISATION DATE SETTINGS
+// ============================================================
+let currentMembreStartDateId = null;
+
+function openCotSettings() {
+  db = getDB();
+  const s = db.cotSettings || {};
+  const gsd = document.getElementById('global-start-date');
+  if (gsd) gsd.value = s.globalStartDate ? s.globalStartDate.split('T')[0] : '';
+  renderExtraDates();
+  renderRemovedDates();
+  openModal('modal-cot-settings');
+}
+
+function saveGlobalStartDate() {
+  db = getDB();
+  const val = document.getElementById('global-start-date').value;
+  if (val) {
+    const chosen = new Date(val);
+    const today = new Date(); today.setHours(0,0,0,0);
+    if (chosen <= today) { showToast('Choisissez une date future', 'error'); return; }
+  }
+  if (!db.cotSettings) db.cotSettings = { globalStartDate: null, extraDates: [], removedDates: [] };
+  db.cotSettings.globalStartDate = val || null;
+  saveDB(db);
+  showToast('Date de début collective enregistrée', 'success');
+}
+
+function addExtraDate() {
+  db = getDB();
+  const val = document.getElementById('extra-date-input').value;
+  if (!val) { showToast('Sélectionnez une date', 'error'); return; }
+  if (!db.cotSettings) db.cotSettings = { globalStartDate: null, extraDates: [], removedDates: [] };
+  if (!db.cotSettings.extraDates.includes(val)) {
+    db.cotSettings.extraDates.push(val);
+    db.cotSettings.extraDates.sort();
+    // Remove from removedDates if present
+    db.cotSettings.removedDates = db.cotSettings.removedDates.filter(d => d !== val);
+    saveDB(db);
+    renderExtraDates();
+    renderRemovedDates();
+    showToast('Date ajoutée', 'success');
+  } else {
+    showToast('Date déjà ajoutée', 'error');
+  }
+}
+
+function removeDate() {
+  db = getDB();
+  const val = document.getElementById('remove-date-input').value;
+  if (!val) { showToast('Sélectionnez une date', 'error'); return; }
+  // Only allow removing Sundays
+  const d = new Date(val);
+  if (d.getDay() !== 0) { showToast('Vous ne pouvez retirer que des dimanches', 'error'); return; }
+  if (!db.cotSettings) db.cotSettings = { globalStartDate: null, extraDates: [], removedDates: [] };
+  if (!db.cotSettings.removedDates.includes(val)) {
+    db.cotSettings.removedDates.push(val);
+    db.cotSettings.removedDates.sort();
+    // Remove from extraDates if present
+    db.cotSettings.extraDates = db.cotSettings.extraDates.filter(d => d !== val);
+    saveDB(db);
+    renderExtraDates();
+    renderRemovedDates();
+    showToast('Échéance retirée', 'success');
+  } else {
+    showToast('Date déjà retirée', 'error');
+  }
+}
+
+function renderExtraDates() {
+  db = getDB();
+  const s = db.cotSettings || {};
+  const list = document.getElementById('extra-dates-list');
+  if (!list) return;
+  const extras = s.extraDates || [];
+  list.innerHTML = extras.length === 0 ? '<p style="font-size:12px;color:var(--text-muted);">Aucune date ajoutée</p>' :
+    extras.map(d => `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+      <span style="font-size:12px;color:var(--text);">${fmtDateShort(d)}</span>
+      <button onclick="deleteExtraDate('${d}')" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:14px;">🗑️</button>
+    </div>`).join('');
+}
+
+function deleteExtraDate(date) {
+  db = getDB();
+  db.cotSettings.extraDates = db.cotSettings.extraDates.filter(d => d !== date);
+  saveDB(db);
+  renderExtraDates();
+  showToast('Date supprimée', 'success');
+}
+
+function renderRemovedDates() {
+  db = getDB();
+  const s = db.cotSettings || {};
+  const list = document.getElementById('removed-dates-list');
+  if (!list) return;
+  const removed = s.removedDates || [];
+  list.innerHTML = removed.length === 0 ? '<p style="font-size:12px;color:var(--text-muted);">Aucun dimanche retiré</p>' :
+    removed.map(d => `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+      <span style="font-size:12px;color:var(--text);">${fmtDateShort(d)}</span>
+      <button onclick="restoreRemovedDate('${d}')" style="background:none;border:none;color:var(--success);cursor:pointer;font-size:12px;">↩️ Restaurer</button>
+    </div>`).join('');
+}
+
+function restoreRemovedDate(date) {
+  db = getDB();
+  db.cotSettings.removedDates = db.cotSettings.removedDates.filter(d => d !== date);
+  saveDB(db);
+  renderRemovedDates();
+  showToast('Dimanche restauré', 'success');
+}
+
+// ============================================================
+// MEMBRE START DATE
+// ============================================================
+function openMembreStartDate(userId) {
+  db = getDB();
+  currentMembreStartDateId = userId;
+  const u = db.users.find(x => x.id === userId);
+  if (!u) return;
+  document.getElementById('membre-start-date-name').textContent = u.prenom + ' ' + u.nom;
+  const input = document.getElementById('membre-start-date-input');
+  input.value = u.cotStartDate ? u.cotStartDate.split('T')[0] : '';
+  // Set min date to tomorrow
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+  input.min = tomorrow.toISOString().split('T')[0];
+  document.getElementById('membre-start-date-error').style.display = 'none';
+  openModal('modal-membre-start-date');
+}
+
+function saveMembreStartDate() {
+  if (!currentMembreStartDateId) return;
+  db = getDB();
+  const val = document.getElementById('membre-start-date-input').value;
+  const errDiv = document.getElementById('membre-start-date-error');
+  if (val) {
+    const chosen = new Date(val);
+    const today = new Date(); today.setHours(0,0,0,0);
+    if (chosen <= today) {
+      errDiv.textContent = 'La date doit être ultérieure à aujourd'hui.';
+      errDiv.style.display = 'block'; return;
+    }
+  }
+  const u = db.users.find(x => x.id === currentMembreStartDateId);
+  if (u) {
+    u.cotStartDate = val || null;
+    saveDB(db);
+    closeModal('modal-membre-start-date');
+    showToast('Date de début enregistrée', 'success');
+  }
+}
+
+// ============================================================
+// SHARE VIA WHATSAPP / SMS
+// ============================================================
+function shareApp() {
+  const url = window.location.href.split('?')[0].split('#')[0];
+  const msg = encodeURIComponent('📲 Télécharger ANDE DOLEL SA DJEUKEUR ici : ' + url);
+  // Try WhatsApp first, fallback to SMS
+  window.open('https://wa.me/?text=' + msg, '_blank');
+}
+
+
+function refreshNextEcheance() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  // Look ahead up to 90 days for next Sunday (or extra date)
+  let next = null;
+  for (let i = 1; i <= 90; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const iso = d.toISOString().split('T')[0];
+    const days = getCotisationDays(d.getFullYear(), d.getMonth());
+    if (days.includes(iso)) { next = d; break; }
+  }
+  const dateEl = document.getElementById('next-echeance-date');
+  const countEl = document.getElementById('next-echeance-countdown');
+  if (!dateEl) return;
+  if (!next) { dateEl.textContent = '—'; countEl.textContent = ''; return; }
+  const diff = Math.round((next - today) / 86400000);
+  const opts = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
+  dateEl.textContent = next.toLocaleDateString('fr-FR', opts).replace(/^./, c => c.toUpperCase());
+  if (diff === 1) countEl.textContent = 'Demain';
+  else if (diff === 0) countEl.textContent = "Aujourd'hui";
+  else countEl.textContent = `Dans ${diff} jour${diff>1?'s':''}`;
+}
+
+// ============================================================
+// SESSION MANAGEMENT - Auto-logout after 5 min inactivity
+// ============================================================
+const SESSION_TIMEOUT = 5 * 60 * 1000; // 5 minutes
+let sessionTimer = null;
+let sessionWarningTimer = null;
+
+function resetSessionTimer() {
+  if (!currentUser) return;
+  clearTimeout(sessionTimer);
+  clearTimeout(sessionWarningTimer);
+  // Warning at 4min30 (30s before logout)
+  sessionWarningTimer = setTimeout(() => {
+    if (!currentUser) return;
+    showToast('⏱️ Déconnexion dans 30 secondes...', 'warning');
+  }, SESSION_TIMEOUT - 30000);
+  // Logout at 5min
+  sessionTimer = setTimeout(() => {
+    if (!currentUser) return;
+    logout();
+    showToast('🔒 Session expirée — reconnectez-vous', 'error');
+  }, SESSION_TIMEOUT);
+}
+
+function startSession() {
+  resetSessionTimer();
+  // Track user activity
+  ['touchstart','touchend','click','keydown','scroll','mousemove'].forEach(evt => {
+    document.addEventListener(evt, resetSessionTimer, { passive: true });
+  });
+  // Also reset when app becomes visible again (returning from another app)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && currentUser) {
+      // Check if too much time passed while hidden
+      const now = Date.now();
+      const elapsed = now - (window._lastActiveTime || now);
+      if (elapsed > SESSION_TIMEOUT) {
+        logout();
+        showToast('🔒 Session expirée — reconnectez-vous', 'error');
+      } else {
+        resetSessionTimer();
+      }
+    } else if (document.visibilityState === 'hidden') {
+      window._lastActiveTime = Date.now();
+    }
+  });
+}
+
+function stopSession() {
+  clearTimeout(sessionTimer);
+  clearTimeout(sessionWarningTimer);
+}
+
+// ===== QR CODE FAB =====
+let qrPanelOpen = false;
+let qrGenerated = false;
+
+function toggleQrPanel() {
+  const panel = document.getElementById('qr-panel');
+  qrPanelOpen = !qrPanelOpen;
+  panel.style.display = qrPanelOpen ? 'flex' : 'none';
+  if (qrPanelOpen && !qrGenerated) {
+    generateQrCode();
+    qrGenerated = true;
+  }
+}
+
+// Close QR panel when clicking outside
+document.addEventListener('click', function(e) {
+  const panel = document.getElementById('qr-panel');
+  const fab = document.getElementById('qr-fab');
+  if (qrPanelOpen && panel && fab && !panel.contains(e.target) && !fab.contains(e.target)) {
+    qrPanelOpen = false;
+    panel.style.display = 'none';
+  }
+});
+
+// Show/hide QR FAB only on login screen
+const _origShowScreen = showScreen;
+window.showScreen = function(id) {
+  _origShowScreen(id);
+  const fab = document.getElementById('qr-fab');
+  if (fab) fab.style.display = (id === 'login') ? 'flex' : 'none';
+};
+
+function generateQrCode() {
+  const canvas = document.getElementById('qr-canvas');
+  if (!canvas) return;
+  // Get current page URL as download link (self-referencing)
+  const url = window.location.href.split('?')[0].split('#')[0];
+  drawQR(canvas, url);
+}
+
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((result) => {
+      deferredPrompt = null;
+      document.getElementById('btn-install').style.display = 'none';
+    });
+  }
+}
+
+// Show install button when prompt available
+window.addEventListener('beforeinstallprompt', () => {
+  const btn = document.getElementById('btn-install');
+  if (btn) btn.style.display = 'block';
+});
+
+function downloadApp() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob(['<!DOCTYPE html>\n' + html], {type: 'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ANDE_DOLEL_SA_DJEUKEUR.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+// Minimal QR Code generator (no external lib needed)
+function drawQR(canvas, text) {
+  // Use qr-creator approach via data URI with qrcode lib
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+  script.onload = function() {
+    const container = document.createElement('div');
+    container.style.display = 'none';
+    document.body.appendChild(container);
+    try {
+      const qr = new QRCode(container, {
+        text: text,
+        width: 116,
+        height: 116,
+        colorDark: '#0D1B2A',
+        colorLight: '#FFFFFF',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      setTimeout(function() {
+        const img = container.querySelector('img');
+        const ctx = canvas.getContext('2d');
+        if (img && img.src) {
+          const image = new Image();
+          image.onload = function() { ctx.drawImage(image, 0, 0, 116, 116); };
+          image.src = img.src;
+        }
+        document.body.removeChild(container);
+      }, 300);
+    } catch(e) {
+      document.body.removeChild(container);
+      // Fallback: draw placeholder
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#0D1B2A';
+      ctx.fillRect(0, 0, 116, 116);
+      ctx.fillStyle = '#C9A84C';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Hors ligne', 58, 54);
+      ctx.fillText('Utiliser ⬇', 58, 70);
+    }
+  };
+  script.onerror = function() {
+    // Offline fallback
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#f5f5f5';
+    ctx.fillRect(0, 0, 116, 116);
+    ctx.fillStyle = '#0D1B2A';
+    ctx.font = 'bold 9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Utiliser le bouton', 58, 52);
+    ctx.fillText('Télécharger ↓', 58, 68);
+  };
+  document.head.appendChild(script);
+}
+</script>
+</body>
+</html>
